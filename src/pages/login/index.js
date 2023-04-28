@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillFacebook } from "react-icons/ai";
 
@@ -6,6 +6,7 @@ import loginImg from "../../assets/login.jpg";
 import { Link } from "react-router-dom";
 
 export default function Login() {
+  const [clicked, setClicked] = useState({police:true,forensic:false});
   return (
     <div className="relative w-full h-screen sm:bg-zinc-900/90  bg-gray-400   ">
       <img
@@ -19,11 +20,11 @@ export default function Login() {
             LOGIN
           </h2>
           <div className="flex justify-between py-8">
-            <p className="border  px-6 py-2 relative flex items-center rounded-md cursor-pointer hover:bg-gray-400">
+            <p className={`border  px-6 py-2 relative flex items-center rounded-md cursor-pointer hover:bg-gray-400 ${clicked.police? 'bg-gray-300' : 'bg-none'}`} onClick={()=>{ setClicked({police:clicked.police? clicked.police : !clicked.police,forensic:clicked.forensic? !clicked.forensic : clicked.forensic})}}>
               {" "}
               Police{" "}
             </p>
-            <p className="border cursor-pointer px-6 py-2 relative flex items-center rounded-md hover:bg-gray-300">
+            <p className={ `border cursor-pointer px-6 py-2 relative flex items-center rounded-md hover:bg-gray-300 ${clicked.forensic? 'bg-gray-300' : 'bg-none'}` } onClick={()=>{ setClicked({police:!clicked.police,forensic:!clicked.forensic})}}>
               Forensics
             </p>
           </div>

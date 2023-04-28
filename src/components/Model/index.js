@@ -20,7 +20,7 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto ">
-            <div className="flex min-h-full items-center justify-center p-4 text-center ml-10">
+            <div className="flex min-h-full items-center justify-center p-4 mt-2 text-center ml-10">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -40,9 +40,9 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
                   </div>
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-700 ml-[150px] font-sans"
+                    className="text-lg font-medium leading-6 text-gray-700 ml-[150px] font-sans mb-5"
                   >
-                    FIR FORM
+                    New FIR
                   </Dialog.Title>
 
                   <div className="mt-2 ml-10">
@@ -51,65 +51,53 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
                         <div className="mb-4">
                           <label
                             className="block text-gray-700 text-sm font-bold mb-2"
-                            for="username"
+                            for="case_id"
                           >
-                            Username
+                            Case ID
                           </label>
                           <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="username"
                             type="text"
-                            placeholder="Username"
+                            placeholder="C/xxxx/00"
                           />
                         </div>
-                        <div className="mb-3">
+                       
+                        <div className="mb-3 mt-5">
                           <label
                             className="block text-gray-700 text-sm font-bold mb-2"
-                            for="password"
+                            for="offense_code"
                           >
-                            Name
+                            Offense Code
                           </label>
                           <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                             id="password"
                             type="text"
-                            placeholder="Name"
+                            placeholder="theft"
                           />
                         </div>
                         <div className="mb-3">
                           <label
                             className="block text-gray-700 text-sm font-bold mb-2"
-                            for="password"
+                            for="description"
                           >
-                            Name
+                            Enter Description
                           </label>
-                          <input
+                          <textarea
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                             id="password"
                             type="text"
-                            placeholder="Name"
-                          />
+                            rows = "5" cols = "60"
+                          ></textarea>
                         </div>
-                        <div className="mb-3">
-                          <label
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                            for="password"
-                          >
-                            Name
-                          </label>
-                          <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                            id="password"
-                            type="text"
-                            placeholder="Name"
-                          />
-                        </div>
+                       
                         <div className="flex items-center justify-between">
                           <button
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-[70px] w-full rounded focus:outline-none focus:shadow-outline"
                             type="button"
                           >
-                            Save
+                            Upload to Blockchain
                           </button>
                         </div>
                       </form>
