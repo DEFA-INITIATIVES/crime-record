@@ -23,6 +23,7 @@ function Header() {
         >
          F.I.R+
         </button>
+        
         <div className="hidden">
           <Model
             closeModal={closeModal}
@@ -30,6 +31,7 @@ function Header() {
             setIsOpen={setIsOpen}
           />
         </div>
+
         <Link to="/">
         <AiOutlineLogout
           className="mt-6 cursor-pointer ml-[100px] hover:text-left "

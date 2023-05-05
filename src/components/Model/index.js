@@ -1,12 +1,43 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { CrossCircledIcon } from "@radix-ui/react-icons";
 import { Fragment, useState } from "react";
+import { StepperContext } from "../../contexts/StepperContext";
+import { FirstStep, SecondStep, ThirdStep } from "../stepperSteps/index.js";
+import Stepper from "../Stepper/Stepper.jsx";
+import StepperControl from "../Stepper/StepperControl.jsx"
 
 export default function MyModal({ closeModal, isOpen, setIsOpen }) {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [userData, setUserData] = useState('');
+  const [finalData, setFinalData] = useState([]);
+  const steps = [
+    "first Details",
+    "second Details",
+    "third Details",
+  ];
+  
+  const displayStep = (step) => {
+    switch (step) {
+      case 1:
+        return <FirstStep />
+      case 2:
+        return <SecondStep />
+      case 3:
+        return <ThirdStep />
+      default:
+    }
+  }
+
+  const handleClick = (direction) => {
+    let newStep = currentStep;
+    direction === "next" ? newStep++ : newStep--;
+    newStep > 0 && newStep <= steps.length && setCurrentStep(newStep);
+  }
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10 " onClose={closeModal}>
+        <Dialog as="div" className="relative z-50 " onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -30,8 +61,8 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform   overflow-hidden rounded-2xl  bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <div className="mt-1 ml-[350px]">
+                <Dialog.Panel className="md:w-1/2 mx-auto shadow-xl rounded-2xl pb-2 bg-white ">
+                  <div className="mt-1 pr-2 flex justify-end">
                     <CrossCircledIcon
                       onClick={closeModal}
                       className=" w-10 h-10 cursor-pointer "
@@ -40,68 +71,31 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
                   </div>
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-700 ml-[150px] font-sans mb-5"
+                    className="text-lg font-medium leading-6 text-gray-700   font-sans mb-5"
                   >
                     New FIR
                   </Dialog.Title>
 
-                  <div className="mt-2 ml-10">
-                    <div className="w-full max-w-xs">
-                      <form className="">
-                        <div className="mb-4">
-                          <label
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                            for="case_id"
-                          >
-                            Case ID
-                          </label>
-                          <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="username"
-                            type="text"
-                            placeholder="C/xxxx/00"
-                          />
-                        </div>
-                       
-                        <div className="mb-3 mt-5">
-                          <label
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                            for="offense_code"
-                          >
-                            Offense Code
-                          </label>
-                          <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                            id="password"
-                            type="text"
-                            placeholder="theft"
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <label
-                            className="block text-gray-700 text-sm font-bold mb-2"
-                            for="description"
-                          >
-                            Enter Description
-                          </label>
-                          <textarea
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                            id="password"
-                            type="text"
-                            rows = "5" cols = "60"
-                          ></textarea>
-                        </div>
-                       
-                        <div className="flex items-center justify-between">
-                          <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-[70px] w-full rounded focus:outline-none focus:shadow-outline"
-                            type="button"
-                          >
-                            Upload to Blockchain
-                          </button>
-                        </div>
-                      </form>
+                  <div className="">
+                    <div className="container horizontal mt-5">
+                      <Stepper steps={steps} currentStep={currentStep} />    
+
+                      <div className="md:w-4/5 mx-auto">
+                        <StepperContext.Provider value={{
+                          userData,
+                          setUserData,
+                          finalData,
+                          setFinalData
+                        }} >
+                          <form className='mt-4'>
+                            {displayStep(currentStep)}
+                          </form>
+                          
+                        </StepperContext.Provider>
+                      </div>   
+                      
                     </div>
+                      <StepperControl handleClick = {handleClick} currentStep = {currentStep} steps = {steps} />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
