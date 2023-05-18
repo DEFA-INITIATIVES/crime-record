@@ -1,23 +1,12 @@
 import React from "react";
-import Sidebar from "../../components/Sidebar";
-import Header from "../../components/Header";
 import Getdata from "../../components/DataTable/Getdata";
+import Layout from "../../api/layout/layout";
 
-function HomePage() {
+function HomePage({ children }) {
   return (
-    <div>
-      <div className="flex">
-        <Sidebar />
-
-        <div className="ml-[80px]">
-          <Header />
-        </div>
-      </div>
-
-      <div className="ml-3 mt-11">
-        <Getdata />
-      </div>
-    </div>
+    <Layout>
+      <Getdata />
+    </Layout>
   );
 }
 

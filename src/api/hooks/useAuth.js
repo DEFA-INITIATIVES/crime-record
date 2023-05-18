@@ -1,18 +1,18 @@
-import {useMutation} from 'react-query'
-import apiClient from '../apiClient'
+import { useMutation } from "react-query";
+import apiClient from "../apiClient";
 
 export const useRegister = () => {
-    return useMutation(async(userData) => {
-        const response = await apiClient.post('/auth/signup' , userData)
-        return response.data
-    })
-}
+  return useMutation(async (userData) => {
+    console.log("am here nows");
+    const response = await apiClient.post("/auth/signup", userData);
+    return response.data;
+  });
+};
 
 export const useLogin = () => {
-    return useMutation(async(loginData)=>{
+  return useMutation(async (loginData) => {
+    const response = await apiClient.post("/auth/login", loginData);
 
-        const response = await apiClient.post('/auth/login' , loginData)
-
-        return response.data
-    })
-}
+    return response.data;
+  });
+};
