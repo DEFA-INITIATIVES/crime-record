@@ -1,11 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { tokenConfig, api } from "../../Api";
+import { apiClient } from "../../api";
 
 export const getForensics = createAsyncThunk(
   "forensic/get",
   async (_, { getState, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/api/forensics", tokenConfig(getState));
+      const { data } = await apiClient.get("/api/forensics", tokenConfig(getState));
       return data;
     } catch (error) {
       if (error.response && error.response.data.error) {
@@ -21,7 +22,7 @@ export const getForensic = createAsyncThunk(
   "forensic/get",
   async (id, { getState, rejectWithValue }) => {
     try {
-      const { data } = await api.get(
+      const { data } = await apiClient.get(
         `/api/forensics/${id}`,
         tokenConfig(getState)
       );
@@ -40,7 +41,7 @@ export const createForensic = createAsyncThunk(
   "forensic/create",
   async (forensics, { getState, rejectWithValue, dispatch }) => {
     try {
-      const { data } = await api.post(
+      const { data } = await apiClient.post(
         "/api/forensics",
         forensics,
         tokenConfig(getState)
@@ -63,7 +64,7 @@ export const updateForensic = createAsyncThunk(
   async (forensicDetials, { getState, rejectWithValue, dispatch }) => {
     const { _id } = { ...forensicDetials };
     try {
-      const { data } = await api.patch(
+      const { data } = await apiClient.patch(
         `/api/forensics/update/${_id}`,
         forensicDetials,
         tokenConfig(getState)
@@ -84,7 +85,7 @@ export const deleteForensic = createAsyncThunk(
   "forensic/delete",
   async (id, { getState, rejectWithValue }) => {
     try {
-      const { data } = await api.delete(
+      const { data } = await apiClient.delete(
         `/api/forensics/delete/${id}`,
         tokenConfig(getState)
       );

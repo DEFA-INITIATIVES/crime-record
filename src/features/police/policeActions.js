@@ -1,12 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { tokenConfig, api } from "../../Api";
-
+import { apiClient } from "../../api";
 
 export const getPolices = createAsyncThunk(
   "polices/get",
   async (_, { getState, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/api/polices", tokenConfig(getState));
+      const { data } = await apiClient.get(
+        "/api/polices",
+        tokenConfig(getState)
+      );
       return data;
     } catch (error) {
       if (error.response && error.response.data.error) {
@@ -22,7 +25,7 @@ export const getPolice = createAsyncThunk(
   "police/get",
   async (id, { getState, rejectWithValue }) => {
     try {
-      const { data } = await api.get(
+      const { data } = await apiClient.get(
         `/api/polices/${id}`,
         tokenConfig(getState)
       );
@@ -41,7 +44,7 @@ export const createPolice = createAsyncThunk(
   "police/create",
   async (polices, { getState, rejectWithValue, dispatch }) => {
     try {
-      const { data } = await api.post(
+      const { data } = await apiClient.post(
         "/api/polices",
         polices,
         tokenConfig(getState)
@@ -64,7 +67,7 @@ export const updatePolice = createAsyncThunk(
   async (policeDetials, { getState, rejectWithValue, dispatch }) => {
     const { _id } = { ...policeDetials };
     try {
-      const { data } = await api.patch(
+      const { data } = await apiClient.patch(
         `/api/polices/update/${_id}`,
         policeDetials,
         tokenConfig(getState)
@@ -84,7 +87,7 @@ export const deletePolice = createAsyncThunk(
   "police/delete",
   async (id, { getState, rejectWithValue }) => {
     try {
-      const { data } = await api.delete(
+      const { data } = await apiClient.delete(
         `/api/polices/delete/${id}`,
         tokenConfig(getState)
       );

@@ -1,13 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { tokenConfig, api } from "../../Api";
-import { createMessage } from "../../features/auth/authSlice";
+import { apiClient } from "../../api";
 
 export const login = createAsyncThunk(
   "auth/login",
   async (loginDetails, { rejectWithValue, dispatch }) => {
     try {
-      const { data } = await api.post("/api/auth/login", loginDetails);
-      dispatch(createMessage("You are logged in successfully"));
+      const { data } = await apiClient.post("/auth/login", loginDetails);
+
       return data;
     } catch (error) {
       if (error) {
@@ -26,7 +25,7 @@ export const loadUser = createAsyncThunk(
   "auth/loadUser",
   async (_, { getState, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/api/auth/me`, tokenConfig(getState));
+      const { data } = await apiClient.get(`/auth`);
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
@@ -42,11 +41,7 @@ export const register = createAsyncThunk(
   "auth/signup",
   async (registerDetails, { getState, rejectWithValue }) => {
     try {
-      const { data } = await api.post(
-        "/signup/",
-        registerDetails,
-        tokenConfig(getState)
-      );
+      const { data } = await apiClient.post("/auth/signup", registerDetails);
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
