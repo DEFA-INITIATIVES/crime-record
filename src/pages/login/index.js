@@ -19,12 +19,12 @@ export default function Login() {
 	const navigate = useNavigate();
 	const { setIsAuthenticated } = useContext(AuthContext);
 
-  const loginMutation = useLogin();
+	const loginMutation = useLogin();
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
+	const handleChange = (event) => {
+		const { name, value } = event.target;
+		setFormData((prevState) => ({ ...prevState, [name]: value }));
+	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -39,7 +39,7 @@ export default function Login() {
 				localStorage.setItem("userToken", response.token);
 				setIsAuthenticated(true);
 			}
-			navigate("home");
+			navigate("/");
 		} catch (error) {
 			console.log(error);
 		} finally {
@@ -134,7 +134,7 @@ export default function Login() {
 						onClick={() => navigate("/signup")}
 						className="w-full  mt-8 py-4 bg-slate-600 rounded-md hover:bg-indigo-500 relative text-white"
 					>
-					Don't an account signup
+						Don't an account signup
 					</button>
 				</form>
 			</div>
