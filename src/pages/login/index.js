@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useLogin } from "../../api/hooks/useAuth";
 
 import { AuthContext } from "../../contexts/AuthContext";
-import { useDispatch, useSelector } from "react-redux";
-import { setLoggedInUser } from "../../redux/authSlice";
+import { useDispatch } from "react-redux";
+import {  setToken, setUser } from "../../redux/authSlice";
 
 export default function Login() {
 	const dispatch = useDispatch();
@@ -32,7 +32,8 @@ export default function Login() {
 		setLoading(true);
 		try {
 			const response = await loginMutation.mutateAsync(formData);
-			dispatch(setLoggedInUser(response));
+			dispatch(setUser(response));
+			dispatch(setToken(response.token))
 			// console.log(response.token);
 
 			if (response.token) {
