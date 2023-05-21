@@ -35,12 +35,19 @@ export default function Login() {
 			dispatch(setUser(response));
 			dispatch(setToken(response.token))
 			// console.log(response.token);
+			console.log(response.token, response.role)
 
-			if (response.token) {
+			if (response.token && response.role =="police") {
 				localStorage.setItem("userToken", response.token);
 				setIsAuthenticated(true);
+				navigate("/");
 			}
-			navigate("/");
+			else if(response.token && response.role =="forensic")
+			{
+				localStorage.setItem("userToken", response.token);
+				setIsAuthenticated(true);
+				navigate("/forensic")
+			}
 		} catch (error) {
 			console.log(error);
 		} finally {
