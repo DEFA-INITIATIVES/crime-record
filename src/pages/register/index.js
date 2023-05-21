@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRegister } from "../../api";
 
 export default function Register() {
@@ -11,6 +11,7 @@ export default function Register() {
 		name: "",
 	});
 
+	const navigate = useNavigate();
 	const registerMutation = useRegister();
 
 	const handleChange = (event) => {
@@ -22,6 +23,7 @@ export default function Register() {
 		event.preventDefault();
 		try {
 			const response = await registerMutation.mutateAsync(formData);
+			navigate("/");
 			console.log(response);
 		} catch (error) {
 			console.log(error);
@@ -99,17 +101,12 @@ export default function Register() {
 					>
 						Sign Up
 					</button>
-
-					<p className="flex items-center mt-2 font-semibold font-sans">
-						<input className="mr-2" type="checkbox" />
-						Remember Me
-					</p>
-					<p className="text-center mt-8 text-gray-700 font-sans cursor-pointer font-bold">
-						Have an account{" "}
-						<Link href="" className="text-blue-500">
-							Login
-						</Link>
-					</p>
+					<button
+						onClick={() => navigate("/")}
+						className="w-full  mt-8 py-4 bg-slate-600 rounded-md hover:bg-indigo-500 relative text-white"
+					>
+						Have an account login
+					</button>
 				</form>
 			</div>
 		</div>

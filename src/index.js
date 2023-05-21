@@ -6,15 +6,25 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "./api";
 import { AuthProvider } from "./contexts/AuthContext";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
+import { ReactQueryDevtools } from "react-query/devtools";
+
 ReactDOM.render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+	<>
+		<React.StrictMode>
+			<BrowserRouter>
+				<QueryClientProvider client={queryClient}>
+					<AuthProvider>
+						<Provider store={store}>
+							<App />
+						</Provider>
+					</AuthProvider>
+					<ReactQueryDevtools initialIsOpen={false} />
+				</QueryClientProvider>
+			</BrowserRouter>
+		</React.StrictMode>
+	</>,
+	document.getElementById("root")
 );

@@ -1,3 +1,4 @@
+/* eslint-disable no-octal-escape */
 import React, { useState } from "react";
 import { AiOutlineLogout } from "react-icons/ai";
 import Model from "../Model/index";
@@ -19,9 +20,9 @@ function Header() {
         <button
           type="button"
           onClick={openModal}
-          className=" border font-sans font-bold  border-gray-700 rounded-[24px] hover:bg-gray-300 px-10 mt-2   py-1\5  "
+          className=" border font-sans font-bold  border-gray-700 rounded-[24px] hover:bg-gray-300 px-10 mt-2   py-1/5  "
         >
-         F.I.R+
+       ADD  F.I.R
         </button>
         
         <div className="hidden">
