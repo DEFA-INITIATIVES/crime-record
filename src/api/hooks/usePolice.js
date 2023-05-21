@@ -1,9 +1,17 @@
 import { useMutation } from "react-query";
 import apiClient from "../apiClient";
+import axios from "axios";
 
-export const useCreatePolice = () => {
+export const useCreateCrime = () => {
+  const token = localStorage.getItem("userToken");
+
   return useMutation(async (policeData) => {
-    const response = await apiClient.post("/api/crimes/create", policeData);
+    // console.log(policeData)
+    const response = await axios.post("http://localhost:9000/api/crimes/create", policeData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   });
 };
