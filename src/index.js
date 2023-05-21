@@ -12,17 +12,19 @@ import store from "./redux/store";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 ReactDOM.render(
-	<React.StrictMode>
-		<QueryClientProvider client={queryClient}>
+	<>
+		<React.StrictMode>
 			<BrowserRouter>
-				<Provider store={store}>
+				<QueryClientProvider client={queryClient}>
 					<AuthProvider>
-						<App />
+						<Provider store={store}>
+							<App />
+						</Provider>
 					</AuthProvider>
-				</Provider>
+					<ReactQueryDevtools initialIsOpen={false} />
+				</QueryClientProvider>
 			</BrowserRouter>
-			<ReactQueryDevtools initialIsOpen={false} />
-		</QueryClientProvider>
-	</React.StrictMode>,
+		</React.StrictMode>
+	</>,
 	document.getElementById("root")
 );

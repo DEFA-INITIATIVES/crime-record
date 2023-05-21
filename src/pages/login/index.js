@@ -31,7 +31,7 @@ export default function Login() {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		
+
 		setLoading(true);
 		try {
 			const response = await loginMutation.mutateAsync(formData);
@@ -133,16 +133,12 @@ export default function Login() {
 							"Sign In"
 						)}
 					</button>
-					<p className="flex items-center mt-2 font-semibold font-sans">
-						<input className="mr-2" type="checkbox" />
-						Remember Me
-					</p>
-					<p className="text-center mt-8 text-gray-700 font-sans cursor-pointer font-bold">
-						Not a member?{" "}
-						<Link to="/signup" className="cursor-pointer text-blue-700">
-							Sign up now
-						</Link>
-					</p>
+					<button
+						onClick={() => navigate("/signup")}
+						className="w-full  mt-8 py-4 bg-slate-600 rounded-md hover:bg-indigo-500 relative text-white"
+					>
+					Don't an account signup
+					</button>
 				</form>
 			</div>
 		</div>

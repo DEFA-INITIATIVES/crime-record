@@ -20,6 +20,7 @@ const getData = () => {
 function Getdata() {
 	const token = localStorage.getItem("userToken");
 	const dispatch = useDispatch();
+	
 
 	const getReports = async () => {
 		const res = await apiClient.get("/crimes", {
