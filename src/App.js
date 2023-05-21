@@ -8,26 +8,37 @@ import Register from "./pages/register";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Crime from "./pages/crime";
 import Evidence from "./pages/evidence";
+import Forensicdashboard from "./pages/Forensicdashboard";
 
 function App() {
-  return (
-    <div className="">
-      <Routes>
-        <Route
-          index
-          path="/"
-          element={<ProtectedRoute element={<HomePage />} />}
-        />
-        <Route path="/crime" element={<ProtectedRoute element={<Crime />} />} />
-        <Route
-          path="/evidence"
-          element={<ProtectedRoute element={<Evidence />} />}
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="*" element={<NotFoundpage />} />
-      </Routes>
-    </div>
-  );
+	return (
+		<div className="">
+			<Routes>
+				<Route
+					index
+					path="/"
+					element={<ProtectedRoute element={<HomePage />} />}
+				/>
+
+				<Route
+					path="/crime"
+					element={<ProtectedRoute element={<Crime />} />}
+				/>
+				<Route
+					path="/evidence"
+					element={<ProtectedRoute element={<Evidence />} />}
+				/>
+
+				<Route
+					path="/forensic"
+					element={<ProtectedRoute element={<Forensicdashboard />} />}
+				/>
+
+				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<Register />} />
+				<Route path="*" element={<NotFoundpage />} />
+			</Routes>
+		</div>
+	);
 }
 export default App;

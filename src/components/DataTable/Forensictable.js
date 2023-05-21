@@ -17,7 +17,7 @@ const getData = () => {
 	return [...data];
 };
 
-function Getdata({
+function Forensictable({
 	hName,
 	aName,
 	hDesc,
@@ -87,7 +87,7 @@ function Getdata({
 			{
 				<main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
 					<div className="">
-						<h1 className="text-xl font-semibold">TAMPER PROOF SYSTEM</h1>
+						<h1 className="text-xl font-semibold">  FORENSICS MODULE</h1>
 					</div>
 					<div className="mt-6">
 						<Table columns={columns} data={data} />
@@ -97,4 +97,4 @@ function Getdata({
 		</div>
 	);
 }
-export default Getdata;
+export default Forensictable;
