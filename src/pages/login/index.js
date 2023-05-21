@@ -6,7 +6,6 @@ import { useLogin } from "../../api/hooks/useAuth";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedInUser } from "../../redux/authSlice";
-import { setAuthToken } from "../../api/apiClient";
 
 export default function Login() {
 	const dispatch = useDispatch();
@@ -16,18 +15,16 @@ export default function Login() {
 		password: "",
 	});
 
-	// const token= useSelector((state) => state.auth?.loggedInUser.token);
-	// console.log("=================", token, "=================");
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const { setIsAuthenticated } = useContext(AuthContext);
 
-	const loginMutation = useLogin();
+  const loginMutation = useLogin();
 
-	const handleChange = (event) => {
-		const { name, value } = event.target;
-		setFormData((prevState) => ({ ...prevState, [name]: value }));
-	};
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();

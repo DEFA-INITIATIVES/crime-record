@@ -1,7 +1,7 @@
 import React from "react";
-import Sidebar from "../../components/Sidebar";
-import Header from "../../components/Header";
 import Getdata from "../../components/DataTable/Getdata";
+import Header from "../../components/Header";
+import Sidebar from "../../components/Sidebar";
 
 function HomePage() {
 	//
