@@ -4,13 +4,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../../api/hooks/useAuth";
 
 import { AuthContext } from "../../contexts/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoggedInUser } from "../../redux/authSlice";
+import { setAuthToken } from "../../api/apiClient";
 
 export default function Login() {
+	const dispatch = useDispatch();
 	const [clicked, setClicked] = useState({ police: true, forensic: false });
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
 	});
+
+	// const token= useSelector((state) => state.auth?.loggedInUser.token);
+	// console.log("=================", token, "=================");
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const { setIsAuthenticated } = useContext(AuthContext);
@@ -24,10 +31,17 @@ export default function Login() {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		
 		setLoading(true);
 		try {
 			const response = await loginMutation.mutateAsync(formData);
-			if (response.token) setIsAuthenticated(true);
+			dispatch(setLoggedInUser(response));
+			// console.log(response.token);
+
+			if (response.token) {
+				localStorage.setItem("userToken", response.token);
+				setIsAuthenticated(true);
+			}
 			navigate("home");
 		} catch (error) {
 			console.log(error);

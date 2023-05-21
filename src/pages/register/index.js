@@ -106,9 +106,9 @@ export default function Register() {
 					</p>
 					<p className="text-center mt-8 text-gray-700 font-sans cursor-pointer font-bold">
 						Have an account{" "}
-						<Link href="" className="text-blue-500">
+						<a href="/" className="text-blue-500">
 							Login
-						</Link>
+						</a>
 					</p>
 				</form>
 			</div>
