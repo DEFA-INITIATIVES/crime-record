@@ -37,7 +37,7 @@ function Getdata() {
 	// if (result) dispatch(addData(result.data[0]));
 
 	const { isLoading, isError } = result;
-	console.log(result.data, "hey roland am here ");
+	console.log(result.data.data, "hey roland am here ");
 
 	const columns = React.useMemo(
 		() => [
@@ -82,7 +82,7 @@ function Getdata() {
 						<h1 className="text-xl font-semibold">TAMPER PROOF SYSTEM</h1>
 					</div>
 					<div className="mt-6">
-						<Table columns={columns} data={data} />
+						<Table columns={columns} data={result.data.data} />
 					</div>
 				</main>
 			}

@@ -48,7 +48,7 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
 
 									<div className="">
 										<div className="container horizontal mt-5">
-											<Form />
+											<Form setIsOpen={setIsOpen}/>
 										</div>
 									</div>
 								</Dialog.Panel>

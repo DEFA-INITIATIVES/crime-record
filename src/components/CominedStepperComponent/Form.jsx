@@ -3,13 +3,14 @@ import { useDispatch } from "react-redux";
 import { usePostData } from "../../api/hooks/usePostData";
 import { useMutation } from "react-query";
 import apiClient from "../../api/apiClient";
+import { displaySuccessMessage } from "../toast/Toast";
 
-function Form() {
+function Form({setIsOpen}) {
 	const postDataMutation = usePostData();
 
 	const [formData, setFormData] = useState({
 		name: "",
-		code: "",
+		crimeCode: "",
 		suspect: "",
 		description: "",
 	});
@@ -25,6 +26,10 @@ function Form() {
 		try {
 			const response = await postDataMutation.mutateAsync(formData);
 			console.log(response);
+			if(response.status=="201"){
+				displaySuccessMessage('Crime created successfully')
+				setIsOpen(false)
+			}
 		} catch (error) {
 			console.log("===", error, "===");
 		}
@@ -63,10 +68,10 @@ function Form() {
 						</label>
 						<input
 							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-							id="code"
+							id="crimeCode"
 							onChange={handleChange}
-							value={formData.code}
-							name="code"
+							value={formData.crimeCode}
+							name="crimeCode"
 							type="text"
 							placeholder="bv123x"
 						/>
