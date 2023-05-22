@@ -1,11 +1,16 @@
 import React from "react";
 import { RxSketchLogo, RxDashboard, RxPerson } from "react-icons/rx";
-import { HiOutlineShoppingBag } from "react-icons/hi";
+import { HiOutlineShoppingBag,HiOutlineLogout } from "react-icons/hi";
 import { FiSettings } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 // import Header from './Header';
 
 function Sidebar() {
+  const navigate = useNavigate()
+  const handleLogout = ()=>{
+    localStorage.removeItem('userToken')
+    navigate("/login")
+  }
   return (
     <div className="md:block hidden">
       {/* <Header /> */}
@@ -39,10 +44,10 @@ function Sidebar() {
             </div>
             <h3>Crimes</h3>
           </Link>
-          <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
-            <FiSettings size={20} />
+          <div onClick={handleLogout} className="bg-gray-100 hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
+            <HiOutlineLogout size={20} />
           </div>
-          <h3>Setting</h3>
+          <h3>Logout</h3>
         </div>
         <main className="ml-20 w-full"></main>
       </div>

@@ -4,12 +4,15 @@ import { useContext } from "react";
 
 export const ProtectedRoute = ({ element: Component }) => {
 	const { isAuthenticated } = useContext(AuthContext);
+const token = localStorage.getItem("userToken");
 
 	console.log("isAuthenticated: ", isAuthenticated);
 
-	if (!isAuthenticated) {
+	if (!token) {
 		return <Navigate to="/login" />;
 	}
 
 	return Component;
 };
+
+
