@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { usePostData } from "../../api/hooks/usePostData";
 import { displaySuccessMessage } from "../toast/Toast";
+import {useSelector} from "react-redux"
 
 function ForensicForm({ setIsOpen }) {
 	const postDataMutation = usePostData("/forensic/create");
-
+	const crimeId = useSelector(state=>state?.data?.crimeId)
 	const [formData, setFormData] = useState({
-		name: "",
+		crimeId: crimeId,
 		description: "",
 		photos: [],
 	});
+
+
+	console.log(formData)
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -22,7 +26,7 @@ function ForensicForm({ setIsOpen }) {
 			const response = await postDataMutation.mutateAsync(formData);
 			console.log(response);
 			if (response.status === "201") {
-				displaySuccessMessage("Crime created successfully");
+				displaySuccessMessage("Forensic Report added successfully");
 				setIsOpen(false);
 			}
 		} catch (error) {
@@ -47,16 +51,16 @@ function ForensicForm({ setIsOpen }) {
 							className="text-sm text-start font-bold"
 							htmlFor="caseID"
 						>
-							Name{" "}
+							Crime Id{" "}
 						</label>
 						<input
 							className="shadow appearance-none border rounded w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-							id="name"
+							id="crimeId"
 							onChange={handleChange}
-							value={formData.name}
-							name="name"
+							value={formData.crimeId}
+							name="crimeId"
 							type="text"
-							placeholder="miiro"
+							placeholder=""
 						/>
 					</div>
 
