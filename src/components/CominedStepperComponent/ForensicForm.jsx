@@ -11,6 +11,8 @@ function ForensicForm({ setIsOpen }) {
 		photos: [],
 	});
 
+
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevformData) => ({ ...prevformData, [name]: value }));
@@ -32,10 +34,16 @@ function ForensicForm({ setIsOpen }) {
 
 	const handleFileInputChange = (e) => {
 		const { name } = e.target;
-		setFormData((prevformData) => ({
-			...prevformData,
-			[name]: e.target.files[0],
-		}));
+		const file = e.target.files[0];
+
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = () => {
+			setFormData((prevformData) => ({
+				...prevformData,
+				[name]: reader.result.split(",")[1], // Extract base64 data without the "data:image/png;base64," prefix
+			}));
+		};
 	};
 
 	return (
@@ -86,11 +94,11 @@ function ForensicForm({ setIsOpen }) {
 									fill="none"
 									viewBox="0 0 24 24"
 									stroke="currentColor"
-									stroke-width="2"
+									strokeWidth="2"
 								>
 									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
+										strokeLinecap="round"
+										strokeLinejoin="round"
 										d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
 									/>
 								</svg>
@@ -102,7 +110,7 @@ function ForensicForm({ setIsOpen }) {
 							<input
 								value={formData.photos}
 								type="file"
-								name="file_upload"
+								name="photos"
 								class="hidden"
 								onChange={handleFileInputChange}
 							/>
