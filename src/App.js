@@ -8,7 +8,8 @@ import Register from "./pages/register";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Crime from "./pages/crime";
 import Evidence from "./pages/evidence";
-import Forensicdashboard from "./pages/Forensicdashboard";
+import Redirection from "./pages/Redirection";
+import Forensic from "./pages/home/Forensic";
 
 function App() {
 	return (
@@ -28,10 +29,14 @@ function App() {
 					path="/evidence"
 					element={<ProtectedRoute element={<Evidence />} />}
 				/>
+				<Route
+					path="/redirect"
+					element={<ProtectedRoute element={<Redirection />} />}
+				/>
 
 				<Route
 					path="/forensic"
-					element={<ProtectedRoute element={<Forensicdashboard />} />}
+					element={<ProtectedRoute element={<Forensic />} />}
 				/>
 
 				<Route path="/login" element={<Login />} />

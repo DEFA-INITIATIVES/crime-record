@@ -2,8 +2,12 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CrossCircledIcon } from "@radix-ui/react-icons";
 import Form from "../CominedStepperComponent/Form";
+import ForensicForm from "../CominedStepperComponent/ForensicForm";
 
 export default function MyModal({ closeModal, isOpen, setIsOpen }) {
+	const role = localStorage.getItem("role");
+
+	// console.log(role, "ETRETRTWETWRYWTYRWU");
 	return (
 		<>
 			<Transition appear show={isOpen} as={Fragment}>
@@ -48,7 +52,11 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
 
 									<div className="">
 										<div className="container horizontal mt-5">
-											<Form setIsOpen={setIsOpen}/>
+											{role == "police " ? (
+												<Form setIsOpen={setIsOpen} />
+											) : (
+												<ForensicForm setIsOpen={setIsOpen} />
+											)}
 										</div>
 									</div>
 								</Dialog.Panel>

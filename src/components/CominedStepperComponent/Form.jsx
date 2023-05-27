@@ -5,8 +5,8 @@ import { useMutation } from "react-query";
 import apiClient from "../../api/apiClient";
 import { displaySuccessMessage } from "../toast/Toast";
 
-function Form({setIsOpen}) {
-	const postDataMutation = usePostData();
+function Form({ setIsOpen }) {
+	const postDataMutation = usePostData("/crimes/create");
 
 	const [formData, setFormData] = useState({
 		name: "",
@@ -14,6 +14,8 @@ function Form({setIsOpen}) {
 		suspect: "",
 		description: "",
 	});
+
+	const [loading, setLoading] = useState(false);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -25,13 +27,15 @@ function Form({setIsOpen}) {
 		console.log("button clicked");
 		try {
 			const response = await postDataMutation.mutateAsync(formData);
-			console.log(response);
-			if(response.status=="201"){
-				displaySuccessMessage('Crime created successfully')
-				setIsOpen(false)
+			setLoading(!loading);
+			if (response.status == "201") {
+				displaySuccessMessage("Crime created successfully");
+				setIsOpen(false);
 			}
 		} catch (error) {
 			console.log("===", error, "===");
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -58,7 +62,7 @@ function Form({setIsOpen}) {
 							value={formData.name}
 							name="name"
 							type="text"
-							placeholder="miiro"
+							placeholder="rape"
 						/>
 					</div>
 
@@ -118,7 +122,11 @@ function Form({setIsOpen}) {
 					onClick={handleSubmit}
 					className="bg-green-500 text-white uppercase py-2 px-4 rounded-xl font-semibold cursor-pointer hover:bg-slate-700 hover:text-white transition duration-200 ease-in-out"
 				>
-					Upload To blockchain
+					{loading ? (
+						<div>Uploading....</div>
+					) : (
+						<div>Upload To blockchain</div>
+					)}
 				</button>
 			</div>
 		</div>

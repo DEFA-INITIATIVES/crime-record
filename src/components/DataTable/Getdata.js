@@ -1,5 +1,7 @@
-import React, { useState,useEffect } from "react";
-import Table, { SelectColumnFilter } from "../DataTable/index";
+import { Table } from "antd";
+import qs from "qs";
+import React, { useEffect, useState } from "react";
+import { SelectColumnFilter } from "../DataTable/index";
 import apiClient from "../../api/apiClient";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
@@ -15,45 +17,81 @@ const getData = () => {
 	];
 	return [...data];
 };
-
+const getRandomuserParams = (params) => ({
+	results: params.pagination?.pageSize,
+	page: params.pagination?.current,
+	...params,
+});
 function Getdata() {
 	const token = localStorage.getItem("userToken");
 	const dispatch = useDispatch();
-	const [resultData,setResult] = useState()
+	const [resultData, setResult] = useState();
+	const [crimedata, setData] = useState();
+	const [loading, setLoading] = useState(false);
+	const [tableParams, setTableParams] = useState({
+		pagination: {
+			current: 1,
+			pageSize: 10,
+		},
+	});
 
 	const getReports = async () => {
-		const res = await apiClient.get("/crimes", {
-			headers: {
-				Authorization: `Bearer ${token}`,
+		setLoading(true);
+		const res = await apiClient.get(
+			`/crimes?${qs.stringify(getRandomuserParams(tableParams))}`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		setData(res.data);
+		setLoading(false);
+		setTableParams({
+			...tableParams,
+			pagination: {
+				...tableParams.pagination,
+				total: res.length,
 			},
 		});
-       setResult(res.data)
-		return res.data;
 	};
-	useEffect(()=>{
-		getReports()
-	},[])
-	console.log(resultData,"<<<<<<")
+	useEffect(() => {
+		getReports();
+	}, [JSON.stringify(tableParams)]);
 
-	const result = useQuery("crimes", getReports);
+	console.log(crimedata, "<<<<<<");
 
-	// if (result) dispatch(addData(result.data[0]));
+	const handleTableChange = (pagination, filters, sorter) => {
+		setTableParams({
+			pagination,
+			filters,
+			...sorter,
+		});
 
-	const { isLoading, isError } = result;
-	// console.log(result.data, "hey roland am here ");
+		if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+			setData([]);
+		}
+	};
+
+	// const result = useQuery("crimes", getReports);
+
+	// // if (result) dispatch(addData(result.data[0]));
+
+	// const { isLoading, isError } = result;
+	// // console.log(result.data, "hey roland am here ");
 
 	const columns = React.useMemo(
 		() => [
 			{
-				Header: "Name",
-				accessor: "name",
+				title: "Case Name",
+				dataIndex: "name",
 				// Cell: AvatarCell,
 				// imgAccessor: "imgUrl",
 				// emailAccessor: "email",
 			},
 			{
-				Header: "Description",
-				accessor: "description",
+				title: "Description",
+				dataIndex: "description",
 			},
 			// {
 			//   Header: "Status",
@@ -61,14 +99,14 @@ function Getdata() {
 			//   Cell: StatusPill,
 			// },
 			{
-				Header: "Code",
-				accessor: "code",
+				title: "Code",
+				dataIndex: "code",
 			},
 			{
-				Header: "Suspect",
-				accessor: "suspect",
-				Filter: SelectColumnFilter, // new
-				filter: "includes",
+				title: "Suspect",
+				dataIndex: "suspect",
+				// Filter: SelectColumnFilter, // new
+				// filter: "includes",
 			},
 		],
 		[]
@@ -78,16 +116,24 @@ function Getdata() {
 
 	return (
 		<div className="min-h-screen bg-gray-100 text-gray-900">
-
-				<main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-					<div className="">
-						<h1 className="text-xl font-semibold">TAMPER PROOF SYSTEM</h1>
-					</div>
-					<div className="mt-6">
-						<Table columns={columns} data={resultData?.data} />
-					</div>
-				</main>
-			
+			<main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+				<div className="">
+					<h1 className="text-xl font-semibold">TAMPER PROOF SYSTEM</h1>
+				</div>
+				<div className="mt-6">
+					{/* <Table columns={columns} data={resultData?.data} /> */}
+					<Table
+						columns={columns}
+						rowKey={(record) => record?.login?.uuid}
+						style={{ cursor: "pointer", color: "var(--colorIcon)" }}
+						dataSource={crimedata?.data}
+						pagination={tableParams.pagination}
+						loading={loading}
+						onChange={handleTableChange}
+						scroll={{ x: "max-content" }}
+					/>
+				</div>
+			</main>
 		</div>
 	);
 }
