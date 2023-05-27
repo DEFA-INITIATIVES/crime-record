@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState,useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../api/hooks/useAuth";
-// import { ethers } from 'ethers';
-// import { Web3Provider } from '@metamask/providers';
+import Web3 from 'web3';
+
 
 import { AuthContext } from "../../contexts/AuthContext";
 import { useDispatch } from "react-redux";
@@ -58,32 +58,30 @@ export default function Login() {
 		}
 	};
 
-	// const loadMetaMask = async () => {
-	// 	// Check if MetaMask is installed
-	// 	if (window.ethereum) {
-	// 	  // Enable MetaMask
-	// 	  await window.ethereum.enable();
-		  
-	// 	  // Create a new provider instance
-	// 	  const provider = new ethers.providers.Web3Provider(window.ethereum);
-		  
-	// 	  // You can now access the Ethereum provider through `provider`
-	// 	  // For example, you can get the user's address:
-	// 	  const signer = provider.getSigner();
-	// 	  const address = await signer.getAddress();
-		  
-	// 	  // Use the provider and signer to interact with the Ethereum network
-	// 	  // ...
-	// 	} else {
-	// 	  // MetaMask is not installed, prompt the user to install it
-	// 	  alert('Please install MetaMask to use this application.');
-	// 	}
-	//   }
-
-	  
-	//   useEffect(() => {
-	// 	loadMetaMask();
-	//   }, []);
+	useEffect(() => {
+		window.onload = async () => {
+		  if (window.ethereum) {
+			// MetaMask is installed
+			try {
+			  // Request account access
+			  await window.ethereum.enable();
+			  
+			  // Initialize Web3
+			  const web3 = new Web3(window.ethereum);
+			  
+			  // You can now use web3 object to interact with MetaMask
+			  // For example:
+			  const accounts = await web3.eth.getAccounts();
+			  console.log(accounts); // Display the connected account(s)
+			} catch (error) {
+			  console.error(error);
+			}
+		  } else {
+			// MetaMask is not installed
+			console.log('Please install MetaMask extension.');
+		  }
+		};
+	  }, []);
 	  
 
 	return (
