@@ -31,7 +31,7 @@ function Forensictable({
 	const dispatch = useDispatch();
 
 	const getReports = async () => {
-		const res = await apiClient.get("/crimes", {
+		const res = await apiClient.get("/forensics", {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -41,7 +41,7 @@ function Forensictable({
 	};
 
 	const result = useQuery("crimes", getReports);
-
+   console.log(result)
 	// if (result) dispatch(addData(result.data[0]));
 
 	const { isLoading, isError } = result;
@@ -83,8 +83,7 @@ function Forensictable({
 
 	return (
 		<div className="min-h-screen bg-gray-100 text-gray-900">
-			if(isLoading)
-			{
+
 				<main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
 					<div className="">
 						<h1 className="text-xl font-semibold">  FORENSICS MODULE</h1>
@@ -93,7 +92,7 @@ function Forensictable({
 						<Table columns={columns} data={data} />
 					</div>
 				</main>
-			}
+		
 		</div>
 	);
 }

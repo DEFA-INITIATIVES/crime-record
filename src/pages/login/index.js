@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 
 import {  useNavigate } from "react-router-dom";
 import { useLogin } from "../../api/hooks/useAuth";
+// import { ethers } from 'ethers';
+// import { Web3Provider } from '@metamask/providers';
 
 import { AuthContext } from "../../contexts/AuthContext";
 import { useDispatch } from "react-redux";
@@ -54,6 +56,34 @@ export default function Login() {
 			setLoading(false);
 		}
 	};
+
+	// const loadMetaMask = async () => {
+	// 	// Check if MetaMask is installed
+	// 	if (window.ethereum) {
+	// 	  // Enable MetaMask
+	// 	  await window.ethereum.enable();
+		  
+	// 	  // Create a new provider instance
+	// 	  const provider = new ethers.providers.Web3Provider(window.ethereum);
+		  
+	// 	  // You can now access the Ethereum provider through `provider`
+	// 	  // For example, you can get the user's address:
+	// 	  const signer = provider.getSigner();
+	// 	  const address = await signer.getAddress();
+		  
+	// 	  // Use the provider and signer to interact with the Ethereum network
+	// 	  // ...
+	// 	} else {
+	// 	  // MetaMask is not installed, prompt the user to install it
+	// 	  alert('Please install MetaMask to use this application.');
+	// 	}
+	//   }
+
+	  
+	//   useEffect(() => {
+	// 	loadMetaMask();
+	//   }, []);
+	  
 
 	return (
 		<div className="relative w-full h-screen sm:bg-zinc-900/90  bg-gray-400   ">
