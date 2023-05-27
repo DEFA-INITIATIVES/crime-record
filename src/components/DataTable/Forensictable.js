@@ -3,7 +3,6 @@ import qs from 'qs';
 import React, { useEffect, useState } from 'react';
 import { SelectColumnFilter } from "../DataTable/index";
 import apiClient from "../../api/apiClient";
-import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "react-query";
 import addData from "../../redux/dataSlice";
 import { Button } from 'antd';
@@ -26,9 +25,9 @@ const getRandomuserParams = (params) => ({
 	page: params.pagination?.current,
 	...params,
 });
-function  Forensictable() {
+function  Forensics() {
 	const token = localStorage.getItem("userToken");
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const [resultData, setResult] = useState()
 	const [crimedata, setData] = useState();
 	const [isOpen,setIsOpen] = useState(false)
@@ -157,4 +156,4 @@ function  Forensictable() {
 		</div>
 	);
 }
-export default Forensictable;
+export default Forensics;

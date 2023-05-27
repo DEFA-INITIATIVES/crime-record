@@ -17,33 +17,30 @@ function Header() {
 	function openModal() {
 		setIsOpen(true);
 	}
+
+	const role = localStorage.getItem("role");
+
 	return (
 		<div className="shadow-sm h-[60px] w-full bg-white items-center  top-0 z-30 fixed ">
-			<div className="ml-[1050px] flex  ">
-				<button
-					type="button"
-					onClick={openModal}
-					className=" border font-sans font-bold  border-gray-700 rounded-[24px] hover:bg-gray-300 px-10 mt-2   py-1/5  "
-				>
-					ADD F.I.R
-				</button>
+			{role === "police" ? (
+				<div className="ml-[1050px] flex  ">
+					<button
+						type="button"
+						onClick={openModal}
+						className=" border font-sans font-bold  border-gray-700 rounded-[24px] hover:bg-gray-300 px-10 mt-2   py-1/5  "
+					>
+						ADD F.I.R
+					</button>
 
-				<div className="hidden">
-					<Model
-						closeModal={closeModal}
-						isOpen={isOpen}
-						setIsOpen={setIsOpen}
-					/>
+					<div className="hidden">
+						<Model
+							closeModal={closeModal}
+							isOpen={isOpen}
+							setIsOpen={setIsOpen}
+						/>
+					</div>
 				</div>
-
-				<AiOutlineLogout
-					onClick={() => {
-						dispatch(logout());
-					}}
-					className="mt-6 cursor-pointer ml-[100px] hover:text-left "
-					size={30}
-				/>
-			</div>
+			) : null}
 		</div>
 	);
 }
