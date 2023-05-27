@@ -54,10 +54,21 @@ function Getdata() {
 				total: res.length,
 			},
 		});
+		setData(res.data)
+		setLoading(false);
+		setTableParams({
+			...tableParams,
+			pagination: {
+				...tableParams.pagination,
+				total: res.length,
+			},
+		});
 	};
 	useEffect(() => {
-		getReports();
+		getReports()
 	}, [JSON.stringify(tableParams)]);
+
+	console.log(crimedata, "<<<<<<")
 
 	console.log(crimedata, "<<<<<<");
 
@@ -80,8 +91,7 @@ function Getdata() {
 	// const { isLoading, isError } = result;
 	// // console.log(result.data, "hey roland am here ");
 
-	const columns = React.useMemo(
-		() => [
+	const columns =  [
 			{
 				title: "Case Name",
 				dataIndex: "name",
@@ -108,9 +118,7 @@ function Getdata() {
 				// Filter: SelectColumnFilter, // new
 				// filter: "includes",
 			},
-		],
-		[]
-	);
+		]
 
 	const data = React.useMemo(() => getData(), []);
 
@@ -125,15 +133,17 @@ function Getdata() {
 					<Table
 						columns={columns}
 						rowKey={(record) => record?.login?.uuid}
-						style={{ cursor: "pointer", color: "var(--colorIcon)" }}
+						style={{ cursor: 'pointer', color: 'var(--colorIcon)' }}
 						dataSource={crimedata?.data}
 						pagination={tableParams.pagination}
 						loading={loading}
 						onChange={handleTableChange}
-						scroll={{ x: "max-content" }}
+						scroll={{ x: 'max-content' }}
+
 					/>
 				</div>
 			</main>
+
 		</div>
 	);
 }

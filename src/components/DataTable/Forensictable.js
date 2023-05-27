@@ -4,6 +4,7 @@ import { Table } from "antd";
 import qs from "qs";
 // import { SelectColumnFilter } from "../DataTable/index";
 import apiClient from "../../api/apiClient";
+import { useQuery } from "react-query";
 // import { useDispatch } from "react-redux";
 // import { useQuery } from "react-query";
 
@@ -38,22 +39,9 @@ function Forensics() {
 	});
 
 	const getReports = async () => {
-		setLoading(true);
-		const res = await apiClient.get(
-			`/crimes?${qs.stringify(getRandomuserParams(tableParams))}`,
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		);
-		setData(res.data);
-		setLoading(false);
-		setTableParams({
-			...tableParams,
-			pagination: {
-				...tableParams.pagination,
-				total: res.length,
+		const res = await apiClient.get("/forensics", {
+			headers: {
+				Authorization: `Bearer ${token}`,
 			},
 		});
 	};
@@ -75,9 +63,9 @@ function Forensics() {
 		}
 	};
 
-	// const result = useQuery("crimes", getReports);
-
-	// // if (result) dispatch(addData(result.data[0]));
+	const result = useQuery("crimes", getReports);
+   console.log(result)
+	// if (result) dispatch(addData(result.data[0]));
 
 	// const { isLoading, isError } = result;
 	// // console.log(result.data, "hey roland am here ");
@@ -118,24 +106,16 @@ function Forensics() {
 
 	return (
 		<div className="min-h-screen bg-gray-100 text-gray-900">
-			<main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-				<div className="">
-					<h1 className="text-xl font-semibold">Forensics Module</h1>
-				</div>
-				<div className="mt-6">
-					{/* <Table columns={columns} data={resultData?.data} /> */}
-					<Table
-						columns={columns}
-						rowKey={(record) => record?.login?.uuid}
-						style={{ cursor: "pointer", color: "var(--colorIcon)" }}
-						dataSource={crimedata?.data}
-						pagination={tableParams.pagination}
-						loading={loading}
-						onChange={handleTableChange}
-						scroll={{ x: "max-content" }}
-					/>
-				</div>
-			</main>
+
+				<main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+					<div className="">
+						<h1 className="text-xl font-semibold">  FORENSICS MODULE</h1>
+					</div>
+					<div className="mt-6">
+						<Table columns={columns} data={data} />
+					</div>
+				</main>
+		
 		</div>
 	);
 }
