@@ -1,13 +1,13 @@
 import React, { useContext, useState,useEffect } from "react";
 
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../api/hooks/useAuth";
 import Web3 from 'web3';
 
 
 import { AuthContext } from "../../contexts/AuthContext";
 import { useDispatch } from "react-redux";
-import {  setToken, setUser } from "../../redux/authSlice";
+import { setToken, setUser } from "../../redux/authSlice";
 
 export default function Login() {
 	const dispatch = useDispatch();
@@ -35,20 +35,21 @@ export default function Login() {
 		try {
 			const response = await loginMutation.mutateAsync(formData);
 			dispatch(setUser(response));
-			dispatch(setToken(response.token))
+			dispatch(setToken(response.token));
 			// console.log(response.token);
-			console.log(response.token, response.role)
+			console.log(response.token, response.role);
+			// if (response.role) localStorage.setItem("role", response.role);
 
-			if (response.token && response.role =="police") {
+			localStorage.setItem("role", response.role);
+
+			if (response.token && response.role === "police") {
 				localStorage.setItem("userToken", response.token);
 				setIsAuthenticated(true);
 				navigate("/");
-			}
-			else if(response.token && response.role =="forensic")
-			{
+			} else if (response.token && response.role === "forensic") {
 				localStorage.setItem("userToken", response.token);
 				setIsAuthenticated(true);
-				navigate("/forensic")
+				navigate("/forensic");
 			}
 		} catch (error) {
 			console.log(error);

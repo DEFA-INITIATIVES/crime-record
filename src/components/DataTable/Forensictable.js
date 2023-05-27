@@ -1,9 +1,12 @@
-import React from "react";
-import Table, { SelectColumnFilter } from "../DataTable/index";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+import { Table } from "antd";
+import qs from "qs";
+// import { SelectColumnFilter } from "../DataTable/index";
 import apiClient from "../../api/apiClient";
-import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "react-query";
-import addData from "../../redux/dataSlice";
+// import { useDispatch } from "react-redux";
+// import { useQuery } from "react-query";
 
 const getData = () => {
 	const data = [
@@ -16,19 +19,24 @@ const getData = () => {
 	];
 	return [...data];
 };
-
-function Forensictable({
-	hName,
-	aName,
-	hDesc,
-	aDesc,
-	hCode,
-	aCode,
-	hSuspect,
-	aSuspect,
-}) {
+const getRandomuserParams = (params) => ({
+	results: params.pagination?.pageSize,
+	page: params.pagination?.current,
+	...params,
+});
+function Forensics() {
 	const token = localStorage.getItem("userToken");
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
+	// const [resultData, setResult] = useState();
+
+	const [crimedata, setData] = useState();
+	const [loading, setLoading] = useState(false);
+	const [tableParams, setTableParams] = useState({
+		pagination: {
+			current: 1,
+			pageSize: 10,
+		},
+	});
 
 	const getReports = async () => {
 		const res = await apiClient.get("/forensics", {
@@ -36,29 +44,44 @@ function Forensictable({
 				Authorization: `Bearer ${token}`,
 			},
 		});
+	};
+	useEffect(() => {
+		getReports();
+	}, [JSON.stringify(tableParams)]);
 
-		return res.data;
+	// console.log(crimedata, "<<<<<<");
+
+	const handleTableChange = (pagination, filters, sorter) => {
+		setTableParams({
+			pagination,
+			filters,
+			...sorter,
+		});
+
+		if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+			setData([]);
+		}
 	};
 
 	const result = useQuery("crimes", getReports);
    console.log(result)
 	// if (result) dispatch(addData(result.data[0]));
 
-	const { isLoading, isError } = result;
-	console.log(result.data, "hey roland am here ");
+	// const { isLoading, isError } = result;
+	// // console.log(result.data, "hey roland am here ");
 
 	const columns = React.useMemo(
 		() => [
 			{
-				Header: "Name",
-				accessor: "name",
+				title: "Name",
+				dataIndex: "name",
 				// Cell: AvatarCell,
 				// imgAccessor: "imgUrl",
 				// emailAccessor: "email",
 			},
 			{
-				Header: "Description",
-				accessor: "description",
+				title: "Description",
+				dataIndex: "description",
 			},
 			// {
 			//   Header: "Status",
@@ -66,14 +89,14 @@ function Forensictable({
 			//   Cell: StatusPill,
 			// },
 			{
-				Header: "Code",
-				accessor: "code",
+				title: "Code",
+				dataIndex: "code",
 			},
 			{
-				Header: "Suspect",
-				accessor: "suspect",
-				Filter: SelectColumnFilter, // new
-				filter: "includes",
+				title: "Suspect",
+				dataIndex: "suspect",
+				// Filter: SelectColumnFilter, // new
+				// filter: "includes",
 			},
 		],
 		[]
@@ -96,4 +119,4 @@ function Forensictable({
 		</div>
 	);
 }
-export default Forensictable;
+export default Forensics;

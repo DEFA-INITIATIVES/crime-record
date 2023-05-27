@@ -1,11 +1,10 @@
-import { Table } from 'antd';
-import qs from 'qs';
-import React, { useEffect, useState } from 'react';
+import { Table } from "antd";
+import qs from "qs";
+import React, { useEffect, useState } from "react";
 import { SelectColumnFilter } from "../DataTable/index";
 import apiClient from "../../api/apiClient";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
-import addData from "../../redux/dataSlice";
 
 const getData = () => {
 	const data = [
@@ -26,7 +25,7 @@ const getRandomuserParams = (params) => ({
 function Getdata() {
 	const token = localStorage.getItem("userToken");
 	const dispatch = useDispatch();
-	const [resultData, setResult] = useState()
+	const [resultData, setResult] = useState();
 	const [crimedata, setData] = useState();
 	const [loading, setLoading] = useState(false);
 	const [tableParams, setTableParams] = useState({
@@ -38,9 +37,21 @@ function Getdata() {
 
 	const getReports = async () => {
 		setLoading(true);
-		const res = await apiClient.get(`/crimes?${qs.stringify(getRandomuserParams(tableParams))}`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
+		const res = await apiClient.get(
+			`/crimes?${qs.stringify(getRandomuserParams(tableParams))}`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		setData(res.data);
+		setLoading(false);
+		setTableParams({
+			...tableParams,
+			pagination: {
+				...tableParams.pagination,
+				total: res.length,
 			},
 		});
 		setData(res.data)
@@ -59,6 +70,7 @@ function Getdata() {
 
 	console.log(crimedata, "<<<<<<")
 
+	console.log(crimedata, "<<<<<<");
 
 	const handleTableChange = (pagination, filters, sorter) => {
 		setTableParams({
@@ -81,7 +93,7 @@ function Getdata() {
 
 	const columns =  [
 			{
-				title: "Name",
+				title: "Case Name",
 				dataIndex: "name",
 				// Cell: AvatarCell,
 				// imgAccessor: "imgUrl",
@@ -112,7 +124,6 @@ function Getdata() {
 
 	return (
 		<div className="min-h-screen bg-gray-100 text-gray-900">
-
 			<main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
 				<div className="">
 					<h1 className="text-xl font-semibold">TAMPER PROOF SYSTEM</h1>

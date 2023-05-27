@@ -55,7 +55,7 @@ export function SelectColumnFilter({
   // using the preFilteredRows
   const options = React.useMemo(() => {
     const options = new Set();
-    preFilteredRows.forEach((row) => {
+    preFilteredRows?.forEach((row) => {
       options.add(row.values[id]);
     });
     return [...options.values()];
