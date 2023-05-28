@@ -7,6 +7,9 @@ import { useQuery } from "react-query";
 import addData from "../../redux/dataSlice";
 import { Button } from 'antd';
 import MyModal from "../Model"
+import { useDispatch } from 'react-redux';
+import { setCrimeId } from '../../redux/dataSlice';
+import {useSelector} from "react-redux"
 
 
 const getData = () => {
@@ -27,9 +30,11 @@ const getRandomuserParams = (params) => ({
 });
 function  Forensics() {
 	const token = localStorage.getItem("userToken");
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const [resultData, setResult] = useState()
+	const {crimeId} = useSelector(state=>state?.data)
 	const [crimedata, setData] = useState();
+	const [rowId,setRowId] = useState()
 	const [isOpen,setIsOpen] = useState(false)
 	const [closeModal,setCloseModal] = useState()
 	const [loading, setLoading] = useState(false);
@@ -39,7 +44,7 @@ function  Forensics() {
 			pageSize: 10,
 		},
 	});
-
+     console.log(crimeId)
 	const getReports = async () => {
 		setLoading(true);
 		const res = await apiClient.get(`/crimes?${qs.stringify(getRandomuserParams(tableParams))}`, {
@@ -144,7 +149,11 @@ function  Forensics() {
 						loading={loading}
 						onChange={handleTableChange}
 						scroll={{ x: 'max-content' }}
-
+						onRow={(record) => ({
+							onClick: () => {
+							  dispatch(setCrimeId(record._id))
+							},
+						  })}
 					/>
 				</div>
 			</main>

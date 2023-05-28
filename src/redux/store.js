@@ -4,14 +4,13 @@ import dataReducer from "./dataSlice";
 import authReducer from "./authSlice";
 
 const rootReducer = combineReducers({
-	data: dataReducer,
+	data:dataReducer,
 	auth: authReducer,
 });
 const store = configureStore({
-	reducer: {
+	
 		reducer: rootReducer,
-	},
-	// enhancers: [composeWithDevTools()],
+
 });
 
 export default store;

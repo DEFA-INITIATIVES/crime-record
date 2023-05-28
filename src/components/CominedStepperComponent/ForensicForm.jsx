@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { usePostData } from "../../api/hooks/usePostData";
 import { displaySuccessMessage } from "../toast/Toast";
+import { useSelector } from "react-redux";
 
 function ForensicForm({ setIsOpen }) {
-	const postDataMutation = usePostData("/forensic/create");
+	const postDataMutation = usePostData("/forensics/create");
 
+	const crimeId = useSelector((state) => state?.data?.crimeId);
 	const [formData, setFormData] = useState({
-		name: "",
+		crimeId: crimeId,
 		description: "",
 		photos: [],
 	});
+	const [loading, setLoading] = useState(false);
 
-
-
+	console.log(formData);
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevformData) => ({ ...prevformData, [name]: value }));
@@ -22,28 +24,35 @@ function ForensicForm({ setIsOpen }) {
 		event.preventDefault();
 		try {
 			const response = await postDataMutation.mutateAsync(formData);
-			console.log(response);
-			if (response.status === "201") {
-				displaySuccessMessage("Crime created successfully");
+			setLoading(!loading);
+			if (response.status == "201") {
+				displaySuccessMessage("Report created successfully");
 				setIsOpen(false);
 			}
 		} catch (error) {
 			console.log("===", error, "===");
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const handleFileInputChange = (e) => {
-		const { name } = e.target;
 		const file = e.target.files[0];
-
 		const reader = new FileReader();
-		reader.readAsDataURL(file);
+
 		reader.onloadend = () => {
-			setFormData((prevformData) => ({
-				...prevformData,
-				[name]: reader.result.split(",")[1], // Extract base64 data without the "data:image/png;base64," prefix
+			const base64Data = reader.result.split(",")[1]; // Extract base64 data without the "data:image/png;base64," prefix
+
+			setFormData((prevFormData) => ({
+				...prevFormData,
+				photos: base64Data,
 			}));
 		};
+
+		if (file) {
+			const blob = new Blob([file]);
+			reader.readAsDataURL(blob);
+		}
 	};
 
 	return (
@@ -55,16 +64,15 @@ function ForensicForm({ setIsOpen }) {
 							className="text-sm text-start font-bold"
 							htmlFor="caseID"
 						>
-							Name{" "}
+							CrimeId{" "}
 						</label>
 						<input
 							className="shadow appearance-none border rounded w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-							id="name"
+							id="crimeId"
 							onChange={handleChange}
-							value={formData.name}
-							name="name"
+							value={formData.crimeId}
+							name="crimeId"
 							type="text"
-							placeholder="miiro"
 						/>
 					</div>
 
@@ -108,7 +116,6 @@ function ForensicForm({ setIsOpen }) {
 								</span>
 							</span>
 							<input
-								value={formData.photos}
 								type="file"
 								name="photos"
 								class="hidden"
