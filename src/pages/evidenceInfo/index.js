@@ -4,17 +4,21 @@ import { Tab } from "@headlessui/react";
 import { FcOpenedFolder } from "react-icons/fc";
 import { ImFileText2 } from "react-icons/im";
 import apiClient from "../../api/apiClient";
-import { Link } from "react-router-dom";
+import { Link,useLocation} from "react-router-dom";
+
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Evidence() {
+export default function EvidenceInfo() {
   const [data, setData] = useState();
   const token = localStorage.getItem("userToken");
+  const location = useLocation()
+  const id = location.pathname.split("/")[2]
 
   let [categories] = useState({
-    EvidenceFolder: [
+    EvidenceRecords: [
       {
         id: 1,
         icon: <FcOpenedFolder size={90} />,
@@ -23,7 +27,7 @@ export default function Evidence() {
   });
 
   const getData = async () => {
-    const res = await apiClient.get("/forensics", {
+    const res = await apiClient.get(`/forensics/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -33,7 +37,7 @@ export default function Evidence() {
   useEffect(() => {
     getData();
   }, []);
-  console.log(data);
+  console.log(data?.photos[0]);
 
   return (
     <Layout>
@@ -60,16 +64,15 @@ export default function Evidence() {
           <Tab.Panels className="mt-2">
             <Tab.Panel>
             <div className="grid grid-cols-4 gap-20 justify-center">
-  {data?.map((info) => (
-        <Link to={`/evidence/${info._id}`}>
+                <img width={500} height={300} className="absolute  object-contain" src={data?.photos[0]?data?.photos[0] : 'https://res.cloudinary.com/ultronic-software-developers/image/upload/v1685354203/pexels-kat-wilcox-923681_jcbkmm.jpg'} />
+  {/* {data?.map((info) => (
     <div className="cursor-pointer mx-4" key={info._id}>
       <FcOpenedFolder size={90} />
       <p className="inline-block ml-2 px-2 py-1 bg-blue-500 text-white font-bold text-sm rounded">
         {info?.crimeId?.suspect}
       </p>
     </div>
-    </Link>
-  ))}
+  ))} */}
 </div>
 
 

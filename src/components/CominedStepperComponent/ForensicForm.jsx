@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { usePostData } from "../../api/hooks/usePostData";
 import { displaySuccessMessage } from "../toast/Toast";
 import { useSelector } from "react-redux";
-
+import axios from "axios";
 function ForensicForm({ setIsOpen }) {
 	const postDataMutation = usePostData("/forensics/create");
 
 	const crimeId = useSelector((state) => state?.data?.crimeId);
+	const [files, setFiles] = useState("");
 	const [formData, setFormData] = useState({
 		crimeId: crimeId,
 		description: "",
@@ -36,23 +37,44 @@ function ForensicForm({ setIsOpen }) {
 		}
 	};
 
-	const handleFileInputChange = (e) => {
-		const file = e.target.files[0];
-		const reader = new FileReader();
+	const handleFileInputChange = async(e) => {
+		setFiles(e.target.files)
 
-		reader.onloadend = () => {
-			const base64Data = reader.result.split(",")[1]; // Extract base64 data without the "data:image/png;base64," prefix
+		const urls = await Promise.all(
+			Object.values(files).map(async (file) => {
+			  const data = new FormData();
+			  data.append("file", file);
+			  data.append("upload_preset", "upload");
+			  const uploadRes = await axios.post(
+				"https://api.cloudinary.com/v1_1/ultronic-software-developers/image/upload",
+				data
+			  );
+	
+			  const { url } = uploadRes.data;
+			  console.log(url)
+			  return url;
+			})
+		  );
 
-			setFormData((prevFormData) => ({
-				...prevFormData,
-				photos: base64Data,
-			}));
-		};
+		  setFormData((prevFormData) => ({
+			...prevFormData,
+			photos: [...prevFormData.photos, ...urls],
+		  }));
+		// const reader = new FileReader();
 
-		if (file) {
-			const blob = new Blob([file]);
-			reader.readAsDataURL(blob);
-		}
+		// reader.onloadend = () => {
+		// 	const base64Data = reader.result.split(",")[1]; // Extract base64 data without the "data:image/png;base64," prefix
+
+		// 	setFormData((prevFormData) => ({
+		// 		...prevFormData,
+		// 		photos: base64Data,
+		// 	}));
+		// };
+
+		// if (file) {
+		// 	const blob = new Blob([file]);
+		// 	reader.readAsDataURL(blob);
+		// }
 	};
 
 	return (
@@ -119,7 +141,9 @@ function ForensicForm({ setIsOpen }) {
 								type="file"
 								name="photos"
 								class="hidden"
-								onChange={handleFileInputChange}
+								multiple
+								id="file"
+								 onChange={(e)=>handleFileInputChange(e)}
 							/>
 						</label>
 					</div>
