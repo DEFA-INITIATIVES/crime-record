@@ -141,7 +141,7 @@ function ForensicForm({ setIsOpen }) {
 								type="file"
 								name="photos"
 								class="hidden"
-								multiple
+							
 								id="file"
 								 onChange={(e)=>handleFileInputChange(e)}
 							/>
