@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { usePostData } from "../../api/hooks/usePostData";
-import { useMutation } from "react-query";
-import apiClient from "../../api/apiClient";
+
 import { displaySuccessMessage } from "../toast/Toast";
 
 function Form({ setIsOpen }) {
@@ -24,7 +22,6 @@ function Form({ setIsOpen }) {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		console.log("button clicked");
 		try {
 			const response = await postDataMutation.mutateAsync(formData);
 			setLoading(!loading);
