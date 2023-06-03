@@ -12,17 +12,17 @@ import { setCrimeId } from '../../redux/dataSlice';
 import {useSelector} from "react-redux"
 
 
-const getData = () => {
-	const data = [
-		{
-			name: "Jane Cooper",
-			description: "Regional Paradigm Technician",
-			code: "Optimization",
-			suspect: "Admin",
-		},
-	];
-	return [...data];
-};
+// const getData = () => {
+// 	const data = [
+// 		{
+// 			name: "Jane Cooper",
+// 			description: "Regional Paradigm Technician",
+// 			code: "Optimization",
+// 			suspect: "Admin",
+// 		},
+// 	];
+// 	return [...data];
+// };
 const getRandomuserParams = (params) => ({
 	results: params.pagination?.pageSize,
 	page: params.pagination?.current,
@@ -47,7 +47,7 @@ function  Forensics() {
      console.log(crimeId)
 	const getReports = async () => {
 		setLoading(true);
-		const res = await apiClient.get(`/crimes?${qs.stringify(getRandomuserParams(tableParams))}`, {
+		const res = await apiClient.get(`https://crimes-api.onrender.com/api/crimes?${qs.stringify(getRandomuserParams(tableParams))}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -66,7 +66,6 @@ function  Forensics() {
 		getReports()
 	}, [JSON.stringify(tableParams)]);
 
-	console.log(crimedata, "<<<<<<")
 
 
 	const handleTableChange = (pagination, filters, sorter) => {
@@ -92,19 +91,11 @@ function  Forensics() {
 			{
 				title: "Name",
 				dataIndex: "name",
-				// Cell: AvatarCell,
-				// imgAccessor: "imgUrl",
-				// emailAccessor: "email",
 			},
 			{
 				title: "Description",
 				dataIndex: "description",
 			},
-			// {
-			//   Header: "Status",
-			//   accessor: "status",
-			//   Cell: StatusPill,
-			// },
 			{
 				title: "Code",
 				dataIndex: "code",
@@ -112,8 +103,6 @@ function  Forensics() {
 			{
 				title: "Suspect",
 				dataIndex: "suspect",
-				// Filter: SelectColumnFilter, // new
-				// filter: "includes",
 			},
 			{
 				title: "Actions",
@@ -129,13 +118,13 @@ function  Forensics() {
 			console.log(id)
 		}
 
-	const data = React.useMemo(() => getData(), []);
+	// const data = React.useMemo(() => getData(), []);
 
 	return (
 		<div className="min-h-screen bg-gray-100 text-gray-900">
 
 			<main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-				<div className="">
+				<div className="mt-10">
 					<h1 className="text-xl font-semibold">FORENSIC MODULES</h1>
 				</div>
 				<div className="mt-6">
@@ -148,7 +137,6 @@ function  Forensics() {
 						pagination={tableParams.pagination}
 						loading={loading}
 						onChange={handleTableChange}
-						scroll={{ x: 'max-content' }}
 						onRow={(record) => ({
 							onClick: () => {
 							  dispatch(setCrimeId(record._id))

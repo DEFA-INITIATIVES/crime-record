@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { usePostData } from "../../api/hooks/usePostData";
 import { displaySuccessMessage } from "../toast/Toast";
-import {useSelector} from "react-redux"
-
+import { useSelector } from "react-redux";
+import axios from "axios";
 function ForensicForm({ setIsOpen }) {
-	const postDataMutation = usePostData("/forensic/create");
-	const crimeId = useSelector(state=>state?.data?.crimeId)
+	const postDataMutation = usePostData("/forensics/create");
+
+	const crimeId = useSelector((state) => state?.data?.crimeId);
+	const [files, setFiles] = useState("");
 	const [formData, setFormData] = useState({
 		crimeId: crimeId,
 		description: "",
 		photos: [],
 	});
+	const [loading, setLoading] = useState(false);
 
-
-	console.log(formData)
-
+	console.log(formData);
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prevformData) => ({ ...prevformData, [name]: value }));
@@ -24,22 +25,56 @@ function ForensicForm({ setIsOpen }) {
 		event.preventDefault();
 		try {
 			const response = await postDataMutation.mutateAsync(formData);
-			console.log(response);
-			if (response.status === "201") {
-				displaySuccessMessage("Forensic Report added successfully");
+			setLoading(!loading);
+			if (response.status == "201") {
+				displaySuccessMessage("Report created successfully");
 				setIsOpen(false);
 			}
 		} catch (error) {
 			console.log("===", error, "===");
+		} finally {
+			setLoading(false);
 		}
 	};
 
-	const handleFileInputChange = (e) => {
-		const { name } = e.target;
-		setFormData((prevformData) => ({
-			...prevformData,
-			[name]: e.target.files[0],
-		}));
+	const handleFileInputChange = async(e) => {
+		setFiles(e.target.files)
+
+		const urls = await Promise.all(
+			Object.values(files).map(async (file) => {
+			  const data = new FormData();
+			  data.append("file", file);
+			  data.append("upload_preset", "upload");
+			  const uploadRes = await axios.post(
+				"https://api.cloudinary.com/v1_1/ultronic-software-developers/image/upload",
+				data
+			  );
+	
+			  const { url } = uploadRes.data;
+			  console.log(url)
+			  return url;
+			})
+		  );
+
+		  setFormData((prevFormData) => ({
+			...prevFormData,
+			photos: [...prevFormData.photos, ...urls],
+		  }));
+		// const reader = new FileReader();
+
+		// reader.onloadend = () => {
+		// 	const base64Data = reader.result.split(",")[1]; // Extract base64 data without the "data:image/png;base64," prefix
+
+		// 	setFormData((prevFormData) => ({
+		// 		...prevFormData,
+		// 		photos: base64Data,
+		// 	}));
+		// };
+
+		// if (file) {
+		// 	const blob = new Blob([file]);
+		// 	reader.readAsDataURL(blob);
+		// }
 	};
 
 	return (
@@ -51,7 +86,7 @@ function ForensicForm({ setIsOpen }) {
 							className="text-sm text-start font-bold"
 							htmlFor="caseID"
 						>
-							Crime Id{" "}
+							CrimeId{" "}
 						</label>
 						<input
 							className="shadow appearance-none border rounded w-full py-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -60,7 +95,6 @@ function ForensicForm({ setIsOpen }) {
 							value={formData.crimeId}
 							name="crimeId"
 							type="text"
-							placeholder=""
 						/>
 					</div>
 
@@ -90,11 +124,11 @@ function ForensicForm({ setIsOpen }) {
 									fill="none"
 									viewBox="0 0 24 24"
 									stroke="currentColor"
-									stroke-width="2"
+									strokeWidth="2"
 								>
 									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
+										strokeLinecap="round"
+										strokeLinejoin="round"
 										d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
 									/>
 								</svg>
@@ -104,11 +138,12 @@ function ForensicForm({ setIsOpen }) {
 								</span>
 							</span>
 							<input
-								value={formData.photos}
 								type="file"
-								name="file_upload"
+								name="photos"
 								class="hidden"
-								onChange={handleFileInputChange}
+							
+								id="file"
+								 onChange={(e)=>handleFileInputChange(e)}
 							/>
 						</label>
 					</div>
