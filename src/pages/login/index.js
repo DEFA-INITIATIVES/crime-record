@@ -46,7 +46,7 @@ export default function Login() {
 				localStorage.setItem("userToken", response.token);
 				setIsAuthenticated(true);
 				navigate("/");
-			} else if (response.token && response.role === "forensic") {
+			} else if (response.token && response.role === "forensic" ||  response.role === "forensics") {
 				localStorage.setItem("userToken", response.token);
 				setIsAuthenticated(true);
 				navigate("/forensic");
