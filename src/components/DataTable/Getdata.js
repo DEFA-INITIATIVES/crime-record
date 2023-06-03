@@ -139,7 +139,6 @@ function Getdata() {
 						pagination={tableParams.pagination}
 						loading={loading}
 						onChange={handleTableChange}
-						scroll={{ x: 'max-content' }}
 
 					/>
 				</div>
