@@ -2,8 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../api/hooks/useAuth";
-import Web3 from "web3";
-import { displaySuccessMessage } from "../../components/toast/Toast";
+
+import { displaySuccessMessage,displayErrorMessage } from "../../components/toast/Toast";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useDispatch } from "react-redux";
 import { setToken, setUser } from "../../redux/authSlice";
@@ -57,30 +57,6 @@ export default function Login() {
 		}
 	};
 
-	useEffect(() => {
-		window.onload = async () => {
-			if (window.ethereum) {
-				// MetaMask is installed
-				try {
-					// Request account access
-					await window.ethereum.enable();
-
-					// Initialize Web3
-					const web3 = new Web3(window.ethereum);
-
-					// You can now use web3 object to interact with MetaMask
-					// For example:
-					const accounts = await web3.eth.getAccounts();
-					console.log(accounts); // Display the connected account(s)
-				} catch (error) {
-					console.error(error);
-				}
-			} else {
-				// MetaMask is not installed
-				console.log("Please install MetaMask extension.");
-			}
-		};
-	}, []);
 
 	return (
 		<div className="relative w-full h-screen sm:bg-zinc-900/90  bg-gray-400   ">
