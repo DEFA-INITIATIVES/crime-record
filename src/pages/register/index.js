@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegister } from "../../api";
 
+import { Select } from "antd";
+
 export default function Register() {
 	const [formData, setFormData] = useState({
 		email: "",
-		password: "",
 		role: "",
+		password: "",
 		name: "",
 	});
 
@@ -29,6 +31,8 @@ export default function Register() {
 			console.log(error);
 		}
 	};
+
+	console.log(formData)
 
 	return (
 		<div className="relative w-full h-screen sm:bg-zinc-900/90  bg-gray-400   ">
@@ -73,12 +77,13 @@ export default function Register() {
 						<label className="text-gray-900 font-sans font-bold">
 							Role
 						</label>
-						<input
-							className="border relative bg-gray-100 p-2 rounded-md"
-							type="text"
+						<Select
 							name="role"
-							value={formData.role}
-							onChange={handleChange}
+							onChange={(value) => setFormData((prevFormData) => ({ ...prevFormData, role: value }))}
+							options={[
+								{ value: "forensics", label: "Forensic" },
+								{ value: "police", label: "Police" },
+							]}
 							required
 						/>
 					</div>

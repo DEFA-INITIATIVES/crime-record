@@ -8,6 +8,8 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useDispatch } from "react-redux";
 import { setToken, setUser } from "../../redux/authSlice";
 
+
+
 export default function Login() {
 	const dispatch = useDispatch();
 	const [clicked, setClicked] = useState({ police: true, forensic: false });
@@ -16,6 +18,7 @@ export default function Login() {
 		password: "",
 	});
 
+	
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const { setIsAuthenticated } = useContext(AuthContext);
