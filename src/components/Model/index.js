@@ -6,7 +6,7 @@ import ForensicForm from "../CominedStepperComponent/ForensicForm";
 
 export default function MyModal({ closeModal, isOpen, setIsOpen }) {
 	const role = localStorage.getItem("role");
-
+    // console.log(role)
 	// console.log(role, "ETRETRTWETWRYWTYRWU");
 	return (
 		<>
@@ -52,7 +52,7 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
 
 									<div className="">
 										<div className="container horizontal mt-5">
-											{role == "police " ? (
+											{role == "police" ? (
 												<Form setIsOpen={setIsOpen} />
 											) : (
 												<ForensicForm setIsOpen={setIsOpen} />
