@@ -23,7 +23,7 @@ function Sidebar() {
 					<div className="bg-purple-800 text-white p-3 rounded-lg inline-block ">
 						<RxSketchLogo size={20} />
 					</div>
-					{role === "forensic" ? (
+					{role === "forensics" ? (
 						<Link
 							to="/forensic"
 							className="flex flex-col justify-center items-center"

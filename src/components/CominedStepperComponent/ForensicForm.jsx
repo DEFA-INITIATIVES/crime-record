@@ -1,8 +1,33 @@
 import React, { useState } from "react";
 import { usePostData } from "../../api/hooks/usePostData";
-import { displaySuccessMessage } from "../toast/Toast";
+import { displaySuccessMessage, displayErrorMessage } from "../toast/Toast";
 import { useSelector } from "react-redux";
 import axios from "axios";
+
+import { InboxOutlined } from "@ant-design/icons";
+import { message, Upload } from "antd";
+const { Dragger } = Upload;
+
+const props = {
+	name: "file",
+	multiple: true,
+	action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+	onChange(info) {
+		const { status } = info.file;
+		if (status !== "uploading") {
+			console.log(info.file, info.fileList);
+		}
+		if (status === "done") {
+			message.success(`${info.file.name} file uploaded successfully.`);
+		} else if (status === "error") {
+			message.error(`${info.file.name} file upload failed.`);
+		}
+	},
+	onDrop(e) {
+		console.log("Dropped files", e.dataTransfer.files);
+	},
+};
+
 function ForensicForm({ setIsOpen }) {
 	const postDataMutation = usePostData("/forensics/create");
 
@@ -24,9 +49,8 @@ function ForensicForm({ setIsOpen }) {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		setLoading(true);
 		if (!formData.description) {
-			alert("Description and photos are  required");
+			displayErrorMessage("Description and photos are  required");
 		}
 		try {
 			const response = await postDataMutation.mutateAsync(formData);
@@ -108,7 +132,7 @@ function ForensicForm({ setIsOpen }) {
 						></textarea>
 					</div>
 
-					<div className="mt-4">
+					{/* <div className="mt-4">
 						<label className="flex justify-center w-full h-[16rem] px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
 							<span className="flex items-center space-x-2">
 								<svg
@@ -151,29 +175,32 @@ function ForensicForm({ setIsOpen }) {
 								onChange={handleFileInputChange}
 							/>
 						</label>
-					</div>
+					</div> */}
+
+					<Dragger {...props}>
+						<p className="ant-upload-drag-icon">
+							<InboxOutlined />
+						</p>
+						<p className="ant-upload-text">
+							Click or drag file to this area to upload
+						</p>
+						<p className="ant-upload-hint">
+							Support for a single or bulk upload. Strictly prohibited
+							from uploading company data or other banned files.
+						</p>
+					</Dragger>
 				</div>
 			</div>
-			{!formData.description ? (
-				<div className="flex justify-center py-8">
-					<button
-						disabled
-						onClick={handleSubmit}
-						className="bg-green-500 text-white uppercase py-4 px-4 max-w-full rounded-md font-semibold cursor-pointer hover:bg-slate-700/50 hover:text-white transition duration-200 ease-in-out"
-					>
-						Upload To blockchain
-					</button>
-				</div>
-			) : (
-				<div className="flex justify-center py-8">
-					<button
-						onClick={handleSubmit}
-						className="bg-green-500 text-white uppercase py-4 px-4 max-w-full rounded-md font-semibold cursor-pointer hover:bg-slate-700/50 hover:text-white transition duration-200 ease-in-out"
-					>
-						{loading ? "uploading..." : "Upload To blockchain"}
-					</button>
-				</div>
-			)}
+
+			<div className="flex justify-center py-8">
+				<button
+					disabled={!formData.description || !formData.photos}
+					onClick={handleSubmit}
+					className="bg-green-500 text-white uppercase py-4 px-4 max-w-full rounded-md font-semibold cursor-pointer hover:bg-slate-700/50 hover:text-white transition duration-200 ease-in-out"
+				>
+					Upload To blockchain
+				</button>
+			</div>
 		</div>
 	);
 }

@@ -48,6 +48,7 @@ export default function Login() {
 			if (response.token && response.role === "police") {
 				localStorage.setItem("userToken", response.token);
 				setIsAuthenticated(true);
+				displaySuccessMessage("Login successfull")
 				navigate("/");
 			} else if (
 				(response.token && response.role === "forensic") ||
@@ -55,9 +56,11 @@ export default function Login() {
 			) {
 				localStorage.setItem("userToken", response.token);
 				setIsAuthenticated(true);
+				displaySuccessMessage("Login successfull")
 				navigate("/forensic");
 			}
 		} catch (error) {
+			displayErrorMessage("Some error occured")
 			console.log(error);
 		} finally {
 			setLoading(false);

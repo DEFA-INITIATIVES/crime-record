@@ -2,6 +2,10 @@ import React, { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useRegister } from "../../api";
+import {
+	displaySuccessMessage,
+	displayErrorMessage,
+} from "../../components/toast/Toast";
 
 import { Select } from "antd";
 
@@ -29,12 +33,10 @@ export default function Register() {
 		setLoading(true);
 		try {
 			const response = await registerMutation.mutateAsync(formData);
+			displaySuccessMessage("You have been registered successfully")
 			navigate("/");
-			console.log(response);
 		} catch (error) {
-			console.log(error);
-		} finally {
-			setLoading(false);
+			displayErrorMessage("An error occured try again later")
 		}
 	};
 
