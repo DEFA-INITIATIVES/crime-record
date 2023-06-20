@@ -37,30 +37,30 @@ function ForensicForm({ setIsOpen }) {
 		}
 	};
 
-	const handleFileInputChange = async(e) => {
-		setFiles(e.target.files)
+	const handleFileInputChange = async (e) => {
+		setFiles(e.target.files);
 
 		const urls = await Promise.all(
 			Object.values(files).map(async (file) => {
-			  const data = new FormData();
-			  data.append("file", file);
-			  data.append("upload_preset", "upload");
-			  console.log(data)
-			  const uploadRes = await axios.post(
-				"https://api.cloudinary.com/v1_1/ultronic-software-developers/image/upload",
-				data
-			  );
-	
-			  const { url } = uploadRes.data;
-			  console.log(url)
-			  return url;
-			})
-		  );
+				const data = new FormData();
+				data.append("file", file);
+				data.append("upload_preset", "upload");
+				console.log(data);
+				const uploadRes = await axios.post(
+					"https://api.cloudinary.com/v1_1/ultronic-software-developers/image/upload",
+					data
+				);
 
-		  setFormData((prevFormData) => ({
+				const { url } = uploadRes.data;
+				console.log(url);
+				return url;
+			})
+		);
+
+		setFormData((prevFormData) => ({
 			...prevFormData,
 			photos: [...prevFormData.photos, ...urls],
-		  }));
+		}));
 		// const reader = new FileReader();
 
 		// reader.onloadend = () => {
@@ -96,6 +96,7 @@ function ForensicForm({ setIsOpen }) {
 							value={formData.crimeId}
 							name="crimeId"
 							type="text"
+							disabled
 						/>
 					</div>
 
@@ -142,9 +143,8 @@ function ForensicForm({ setIsOpen }) {
 								type="file"
 								name="photos"
 								class="hidden"
-							
 								id="file"
-								 onChange={(e)=>handleFileInputChange(e)}
+								onChange={(e) => handleFileInputChange(e)}
 							/>
 						</label>
 					</div>
