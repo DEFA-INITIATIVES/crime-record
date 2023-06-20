@@ -18,6 +18,7 @@ export default function Register() {
 	});
 
 	const [passwordVisible, setPasswordVisible] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const navigate = useNavigate();
 	const registerMutation = useRegister();
@@ -29,6 +30,7 @@ export default function Register() {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		setLoading(true);
 		try {
 			const response = await registerMutation.mutateAsync(formData);
 			displaySuccessMessage("You have been registered successfully")
@@ -141,7 +143,7 @@ export default function Register() {
 						onClick={handleSubmit}
 						className="w-full py-3 mt-8 bg-indigo-600 rounded-md hover:bg-indigo-500 relative text-white"
 					>
-						Sign Up
+						{loading ? "Registering ...." : "Sign Up"}
 					</button>
 					<button
 						onClick={() => navigate("/")}

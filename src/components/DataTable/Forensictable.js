@@ -44,7 +44,7 @@ function  Forensics() {
 			pageSize: 10,
 		},
 	});
-     console.log(crimeId)
+    //  console.log(crimeId)
 	const getReports = async () => {
 		setLoading(true);
 		const res = await apiClient.get(`https://crimes-api.onrender.com/api/crimes?${qs.stringify(getRandomuserParams(tableParams))}`, {
