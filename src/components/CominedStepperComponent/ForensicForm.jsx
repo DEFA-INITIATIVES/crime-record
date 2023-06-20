@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { usePostData } from "../../api/hooks/usePostData";
-import { displaySuccessMessage } from "../toast/Toast";
+import { displaySuccessMessage, displayErrorMessage } from "../toast/Toast";
 import { useSelector } from "react-redux";
 import axios from "axios";
 function ForensicForm({ setIsOpen }) {
@@ -24,7 +24,7 @@ function ForensicForm({ setIsOpen }) {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		if (!formData.description ) {
-			alert("Description and photos are  required");
+			displayErrorMessage("Description and photos are  required")
 		}
 		try {
 			const response = await postDataMutation.mutateAsync(formData);
@@ -156,6 +156,7 @@ function ForensicForm({ setIsOpen }) {
 
 			<div className="flex justify-center py-8">
 				<button
+				    disabled={!formData.description || !formData.photos}
 					onClick={handleSubmit}
 					className="bg-green-500 text-white uppercase py-4 px-4 max-w-full rounded-md font-semibold cursor-pointer hover:bg-slate-700/50 hover:text-white transition duration-200 ease-in-out"
 				>
