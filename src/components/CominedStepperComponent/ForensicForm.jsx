@@ -23,7 +23,7 @@ function ForensicForm({ setIsOpen }) {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		if (!formData.description && !formData.photos) {
+		if (!formData.description ) {
 			alert("Description and photos are  required");
 		}
 		try {
