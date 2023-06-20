@@ -14,6 +14,7 @@ function ForensicForm({ setIsOpen }) {
 		photos: [],
 	});
 	const [loading, setLoading] = useState(false);
+	const [selectedFile, setSelectedFile] = useState(null);
 
 	console.log(formData);
 	const handleChange = (e) => {
@@ -23,7 +24,8 @@ function ForensicForm({ setIsOpen }) {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		if (!formData.description ) {
+		setLoading(true);
+		if (!formData.description) {
 			alert("Description and photos are  required");
 		}
 		try {
@@ -42,6 +44,7 @@ function ForensicForm({ setIsOpen }) {
 
 	const handleFileInputChange = async (e) => {
 		setFiles(e.target.files);
+		setSelectedFile(files);
 
 		const urls = await Promise.all(
 			Object.values(files).map(async (file) => {
@@ -64,21 +67,6 @@ function ForensicForm({ setIsOpen }) {
 			...prevFormData,
 			photos: [...prevFormData.photos, ...urls],
 		}));
-		// const reader = new FileReader();
-
-		// reader.onloadend = () => {
-		// 	const base64Data = reader.result.split(",")[1]; // Extract base64 data without the "data:image/png;base64," prefix
-
-		// 	setFormData((prevFormData) => ({
-		// 		...prevFormData,
-		// 		photos: base64Data,
-		// 	}));
-		// };
-
-		// if (file) {
-		// 	const blob = new Blob([file]);
-		// 	reader.readAsDataURL(blob);
-		// }
 	};
 
 	return (
@@ -120,12 +108,12 @@ function ForensicForm({ setIsOpen }) {
 						></textarea>
 					</div>
 
-					<div class="mt-4">
-						<label class="flex justify-center w-full h-[16rem] px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
-							<span class="flex items-center space-x-2">
+					<div className="mt-4">
+						<label className="flex justify-center w-full h-[16rem] px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+							<span className="flex items-center space-x-2">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									class="w-6 h-6 text-gray-600"
+									className="w-6 h-6 text-gray-600"
 									fill="none"
 									viewBox="0 0 24 24"
 									stroke="currentColor"
@@ -137,31 +125,55 @@ function ForensicForm({ setIsOpen }) {
 										d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
 									/>
 								</svg>
-								<span class="font-medium text-gray-600">
-									Drop files to Attach, or
-									<span class="text-blue-600 underline">browse</span>
+								<span className="font-medium text-gray-600">
+									{selectedFile ? (
+										<img
+											src={URL.createObjectURL(selectedFile)}
+											alt="Selected"
+											className="h-16 w-16 object-cover"
+										/>
+									) : (
+										<>
+											Drop files to Attach, or
+											<span className="text-blue-600 underline">
+												{" "}
+												browse
+											</span>
+										</>
+									)}
 								</span>
 							</span>
 							<input
 								type="file"
 								name="photos"
-								class="hidden"
+								className="hidden"
 								id="file"
-								onChange={(e) => handleFileInputChange(e)}
+								onChange={handleFileInputChange}
 							/>
 						</label>
 					</div>
 				</div>
 			</div>
-
-			<div className="flex justify-center py-8">
-				<button
-					onClick={handleSubmit}
-					className="bg-green-500 text-white uppercase py-4 px-4 max-w-full rounded-md font-semibold cursor-pointer hover:bg-slate-700/50 hover:text-white transition duration-200 ease-in-out"
-				>
-					Upload To blockchain
-				</button>
-			</div>
+			{!formData.description ? (
+				<div className="flex justify-center py-8">
+					<button
+						disabled
+						onClick={handleSubmit}
+						className="bg-green-500 text-white uppercase py-4 px-4 max-w-full rounded-md font-semibold cursor-pointer hover:bg-slate-700/50 hover:text-white transition duration-200 ease-in-out"
+					>
+						Upload To blockchain
+					</button>
+				</div>
+			) : (
+				<div className="flex justify-center py-8">
+					<button
+						onClick={handleSubmit}
+						className="bg-green-500 text-white uppercase py-4 px-4 max-w-full rounded-md font-semibold cursor-pointer hover:bg-slate-700/50 hover:text-white transition duration-200 ease-in-out"
+					>
+						{loading ? "uploading..." : "Upload To blockchain"}
+					</button>
+				</div>
+			)}
 		</div>
 	);
 }
