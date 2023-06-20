@@ -3,12 +3,13 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../api/hooks/useAuth";
 
-import { displaySuccessMessage,displayErrorMessage } from "../../components/toast/Toast";
+import {
+	displaySuccessMessage,
+	displayErrorMessage,
+} from "../../components/toast/Toast";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useDispatch } from "react-redux";
 import { setToken, setUser } from "../../redux/authSlice";
-
-
 
 export default function Login() {
 	const dispatch = useDispatch();
@@ -18,7 +19,6 @@ export default function Login() {
 		password: "",
 	});
 
-	
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const { setIsAuthenticated } = useContext(AuthContext);
@@ -48,7 +48,10 @@ export default function Login() {
 				localStorage.setItem("userToken", response.token);
 				setIsAuthenticated(true);
 				navigate("/");
-			} else if (response.token && response.role === "forensic" ||  response.role === "forensics") {
+			} else if (
+				(response.token && response.role === "forensic") ||
+				response.role === "forensics"
+			) {
 				localStorage.setItem("userToken", response.token);
 				setIsAuthenticated(true);
 				navigate("/forensic");
@@ -59,7 +62,6 @@ export default function Login() {
 			setLoading(false);
 		}
 	};
-
 
 	return (
 		<div className="relative w-full h-screen sm:bg-zinc-900/90  bg-gray-400   ">
@@ -73,39 +75,7 @@ export default function Login() {
 					<h2 className="text-4xl font-bold text-center py-4 font-sans text-gray-700">
 						LOGIN
 					</h2>
-					<div className="flex justify-between py-8">
-						<p
-							className={`border  px-6 py-2 relative flex items-center rounded-md cursor-pointer hover:bg-gray-400 ${
-								clicked.police ? "bg-gray-300" : "bg-none"
-							}`}
-							onClick={() => {
-								setClicked({
-									police: clicked.police
-										? clicked.police
-										: !clicked.police,
-									forensic: clicked.forensic
-										? !clicked.forensic
-										: clicked.forensic,
-								});
-							}}
-						>
-							{" "}
-							Police{" "}
-						</p>
-						<p
-							className={`border cursor-pointer px-6 py-2 relative flex items-center rounded-md hover:bg-gray-300 ${
-								clicked.forensic ? "bg-gray-300" : "bg-none"
-							}`}
-							onClick={() => {
-								setClicked({
-									police: !clicked.police,
-									forensic: !clicked.forensic,
-								});
-							}}
-						>
-							Forensics
-						</p>
-					</div>
+
 					<div className="flex flex-col mb-4">
 						<label className="text-gray-900 font-sans font-bold">
 							Email

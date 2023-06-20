@@ -13,6 +13,8 @@ export default function Register() {
 		name: "",
 	});
 
+	const [passwordVisible, setPasswordVisible] = useState(false);
+
 	const navigate = useNavigate();
 	const registerMutation = useRegister();
 
@@ -32,7 +34,11 @@ export default function Register() {
 		}
 	};
 
-	console.log(formData)
+	// console.log(formData);
+
+	const handleVisibility = () => {
+		setPasswordVisible(!passwordVisible);
+	};
 
 	return (
 		<div className="relative w-full h-screen sm:bg-zinc-900/90  bg-gray-400   ">
@@ -79,7 +85,12 @@ export default function Register() {
 						</label>
 						<Select
 							name="role"
-							onChange={(value) => setFormData((prevFormData) => ({ ...prevFormData, role: value }))}
+							onChange={(value) =>
+								setFormData((prevFormData) => ({
+									...prevFormData,
+									role: value,
+								}))
+							}
 							options={[
 								{ value: "forensics", label: "Forensic" },
 								{ value: "police", label: "Police" },
@@ -87,9 +98,31 @@ export default function Register() {
 							required
 						/>
 					</div>
-					<div className="flex flex-col ">
+					<div className="flex relative flex-col ">
 						<label className="text-gray-900 font-sans font-bold">
 							Password
+						</label>
+						<input
+							className="border relative bg-gray-100 p-2 rounded-md"
+							type={passwordVisible ? "text" : "password"}
+							name="password"
+							value={formData.password}
+							onChange={handleChange}
+							required
+						/>
+						<span
+							onClick={() => {
+								handleVisibility();
+							}}
+							className="absolute top-8 right-2 cursor-pointer text-sm"
+						>
+							{passwordVisible ? "HIDE" : "SHOW"}
+						</span>
+					</div>
+
+					{/* <div className="flex flex-col ">
+						<label className="text-gray-900 font-sans font-bold">
+							Confirm Password
 						</label>
 						<input
 							className="border relative bg-gray-100 p-2 rounded-md"
@@ -99,7 +132,7 @@ export default function Register() {
 							onChange={handleChange}
 							required
 						/>
-					</div>
+					</div> */}
 					<button
 						onClick={handleSubmit}
 						className="w-full py-3 mt-8 bg-indigo-600 rounded-md hover:bg-indigo-500 relative text-white"
