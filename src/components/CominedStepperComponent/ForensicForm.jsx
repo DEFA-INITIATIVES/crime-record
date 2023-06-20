@@ -23,6 +23,9 @@ function ForensicForm({ setIsOpen }) {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		if (!formData.description && !formData.photos) {
+			alert("Description and photos are  required");
+		}
 		try {
 			const response = await postDataMutation.mutateAsync(formData);
 			setLoading(!loading);
