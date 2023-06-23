@@ -3,31 +3,6 @@ import { usePostData } from "../../api/hooks/usePostData";
 import { displaySuccessMessage, displayErrorMessage } from "../toast/Toast";
 import { useSelector } from "react-redux";
 import axios from "axios";
-
-import { InboxOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
-const { Dragger } = Upload;
-
-const props = {
-	name: "file",
-	multiple: true,
-	action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-	onChange(info) {
-		const { status } = info.file;
-		if (status !== "uploading") {
-			console.log(info.file, info.fileList);
-		}
-		if (status === "done") {
-			message.success(`${info.file.name} file uploaded successfully.`);
-		} else if (status === "error") {
-			message.error(`${info.file.name} file upload failed.`);
-		}
-	},
-	onDrop(e) {
-		console.log("Dropped files", e.dataTransfer.files);
-	},
-};
-
 function ForensicForm({ setIsOpen }) {
 	const postDataMutation = usePostData("/forensics/create");
 
@@ -38,8 +13,8 @@ function ForensicForm({ setIsOpen }) {
 		description: "",
 		photos: [],
 	});
+	const [fileNames, setFileNames] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const [selectedFile, setSelectedFile] = useState(null);
 
 	console.log(formData);
 	const handleChange = (e) => {
@@ -66,33 +41,42 @@ function ForensicForm({ setIsOpen }) {
 		}
 	};
 
-	const handleFileInputChange = async (e) => {
-		setFiles(e.target.files);
-		setSelectedFile(files);
+	const handleFileInputChange = (e) => {
+		const fileList = e.target.files;
+		const selectedFiles = Array.from(fileList);
 
-		const urls = await Promise.all(
-			Object.values(files).map(async (file) => {
-				const data = new FormData();
-				data.append("file", file);
-				data.append("upload_preset", "upload");
-				console.log(data);
-				const uploadRes = await axios.post(
-					"https://api.cloudinary.com/v1_1/ultronic-software-developers/image/upload",
-					data
-				);
+		const readerPromises = selectedFiles.map((file) => {
+			return new Promise((resolve, reject) => {
+				const reader = new FileReader();
 
-				const { url } = uploadRes.data;
-				console.log(url);
-				return url;
+				reader.onloadend = () => {
+					const base64Data = reader.result.split(",")[1]; // Extract base64 data without the "data:image/png;base64," prefix
+					resolve({ base64Data, name: file.name });
+				};
+
+				reader.onerror = reject;
+
+				reader.readAsDataURL(file);
+			});
+		});
+
+		Promise.all(readerPromises)
+			.then((fileDataArray) => {
+				setFiles(selectedFiles);
+
+				const fileNames = fileDataArray.map((fileData) => fileData.name);
+				setFormData((prevFormData) => ({
+					...prevFormData,
+					photos: fileDataArray.map((fileData) => fileData.base64Data),
+				}));
+				setFileNames(fileNames);
 			})
-		);
-
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			photos: [...prevFormData.photos, ...urls],
-		}));
+			.catch((error) => {
+				console.log("Error reading files:", error);
+			});
 	};
 
+	console.log(formData);
 	return (
 		<div className="flex justify-center flex-col items-center">
 			<div className="grid grid-col-1 gap-8 w-full mx-auto px-5">
@@ -132,12 +116,12 @@ function ForensicForm({ setIsOpen }) {
 						></textarea>
 					</div>
 
-					{/* <div className="mt-4">
-						<label className="flex justify-center w-full h-[16rem] px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
-							<span className="flex items-center space-x-2">
+					<div class="mt-4">
+						<label class="flex justify-center w-full h-[16rem] px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+							<span class="flex items-center space-x-2">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									className="w-6 h-6 text-gray-600"
+									class="w-6 h-6 text-gray-600"
 									fill="none"
 									viewBox="0 0 24 24"
 									stroke="currentColor"
@@ -150,45 +134,22 @@ function ForensicForm({ setIsOpen }) {
 									/>
 								</svg>
 								<span className="font-medium text-gray-600">
-									{selectedFile ? (
-										<img
-											src={URL.createObjectURL(selectedFile)}
-											alt="Selected"
-											className="h-16 w-16 object-cover"
-										/>
-									) : (
-										<>
-											Drop files to Attach, or
-											<span className="text-blue-600 underline">
-												{" "}
-												browse
-											</span>
-										</>
-									)}
+									{fileNames.length > 0
+										? fileNames.map((fileName) => (
+												<span key={fileName}>{fileName}</span>
+										  ))
+										: "Drop files to Attach, or browse"}
 								</span>
 							</span>
 							<input
 								type="file"
 								name="photos"
-								className="hidden"
+								class="hidden"
 								id="file"
-								onChange={handleFileInputChange}
+								onChange={(e) => handleFileInputChange(e)}
 							/>
 						</label>
-					</div> */}
-
-					<Dragger {...props}>
-						<p className="ant-upload-drag-icon">
-							<InboxOutlined />
-						</p>
-						<p className="ant-upload-text">
-							Click or drag file to this area to upload
-						</p>
-						<p className="ant-upload-hint">
-							Support for a single or bulk upload. Strictly prohibited
-							from uploading company data or other banned files.
-						</p>
-					</Dragger>
+					</div>
 				</div>
 			</div>
 
