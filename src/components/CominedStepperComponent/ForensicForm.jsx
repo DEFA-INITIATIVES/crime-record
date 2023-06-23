@@ -13,6 +13,7 @@ function ForensicForm({ setIsOpen }) {
 		description: "",
 		photos: [],
 	});
+	const [fileNames, setFileNames] = useState([]);
 	const [loading, setLoading] = useState(false);
 
 	console.log(formData);
@@ -23,8 +24,8 @@ function ForensicForm({ setIsOpen }) {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		if (!formData.description ) {
-			displayErrorMessage("Description and photos are  required")
+		if (!formData.description) {
+			displayErrorMessage("Description and photos are  required");
 		}
 		try {
 			const response = await postDataMutation.mutateAsync(formData);
@@ -40,47 +41,42 @@ function ForensicForm({ setIsOpen }) {
 		}
 	};
 
-	const handleFileInputChange = async (e) => {
-		setFiles(e.target.files);
+	const handleFileInputChange = (e) => {
+		const fileList = e.target.files;
+		const selectedFiles = Array.from(fileList);
 
-		const urls = await Promise.all(
-			Object.values(files).map(async (file) => {
-				const data = new FormData();
-				data.append("file", file);
-				data.append("upload_preset", "upload");
-				console.log(data);
-				const uploadRes = await axios.post(
-					"https://api.cloudinary.com/v1_1/ultronic-software-developers/image/upload",
-					data
-				);
+		const readerPromises = selectedFiles.map((file) => {
+			return new Promise((resolve, reject) => {
+				const reader = new FileReader();
 
-				const { url } = uploadRes.data;
-				console.log(url);
-				return url;
+				reader.onloadend = () => {
+					const base64Data = reader.result.split(",")[1]; // Extract base64 data without the "data:image/png;base64," prefix
+					resolve({ base64Data, name: file.name });
+				};
+
+				reader.onerror = reject;
+
+				reader.readAsDataURL(file);
+			});
+		});
+
+		Promise.all(readerPromises)
+			.then((fileDataArray) => {
+				setFiles(selectedFiles);
+
+				const fileNames = fileDataArray.map((fileData) => fileData.name);
+				setFormData((prevFormData) => ({
+					...prevFormData,
+					photos: fileDataArray.map((fileData) => fileData.base64Data),
+				}));
+				setFileNames(fileNames);
 			})
-		);
-
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			photos: [...prevFormData.photos, ...urls],
-		}));
-		// const reader = new FileReader();
-
-		// reader.onloadend = () => {
-		// 	const base64Data = reader.result.split(",")[1]; // Extract base64 data without the "data:image/png;base64," prefix
-
-		// 	setFormData((prevFormData) => ({
-		// 		...prevFormData,
-		// 		photos: base64Data,
-		// 	}));
-		// };
-
-		// if (file) {
-		// 	const blob = new Blob([file]);
-		// 	reader.readAsDataURL(blob);
-		// }
+			.catch((error) => {
+				console.log("Error reading files:", error);
+			});
 	};
 
+	console.log(formData);
 	return (
 		<div className="flex justify-center flex-col items-center">
 			<div className="grid grid-col-1 gap-8 w-full mx-auto px-5">
@@ -137,9 +133,12 @@ function ForensicForm({ setIsOpen }) {
 										d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
 									/>
 								</svg>
-								<span class="font-medium text-gray-600">
-									Drop files to Attach, or
-									<span class="text-blue-600 underline">browse</span>
+								<span className="font-medium text-gray-600">
+									{fileNames.length > 0
+										? fileNames.map((fileName) => (
+												<span key={fileName}>{fileName}</span>
+										  ))
+										: "Drop files to Attach, or browse"}
 								</span>
 							</span>
 							<input
@@ -156,7 +155,7 @@ function ForensicForm({ setIsOpen }) {
 
 			<div className="flex justify-center py-8">
 				<button
-				    disabled={!formData.description || !formData.photos}
+					disabled={!formData.description || !formData.photos}
 					onClick={handleSubmit}
 					className="bg-green-500 text-white uppercase py-4 px-4 max-w-full rounded-md font-semibold cursor-pointer hover:bg-slate-700/50 hover:text-white transition duration-200 ease-in-out"
 				>
