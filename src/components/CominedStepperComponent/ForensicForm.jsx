@@ -13,6 +13,7 @@ function ForensicForm({ setIsOpen }) {
 		description: "",
 		photos: [],
 	});
+	  
 	const [loading, setLoading] = useState(false);
 
 	console.log(formData);
@@ -64,21 +65,6 @@ function ForensicForm({ setIsOpen }) {
 			...prevFormData,
 			photos: [...prevFormData.photos, ...urls],
 		}));
-		// const reader = new FileReader();
-
-		// reader.onloadend = () => {
-		// 	const base64Data = reader.result.split(",")[1]; // Extract base64 data without the "data:image/png;base64," prefix
-
-		// 	setFormData((prevFormData) => ({
-		// 		...prevFormData,
-		// 		photos: base64Data,
-		// 	}));
-		// };
-
-		// if (file) {
-		// 	const blob = new Blob([file]);
-		// 	reader.readAsDataURL(blob);
-		// }
 	};
 
 	return (
