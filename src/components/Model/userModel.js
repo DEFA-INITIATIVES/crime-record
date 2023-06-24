@@ -32,6 +32,7 @@ function UserModel({ closeModal, isOpen, setIsOpen }) {
     try {
       const response = await registerMutation.mutateAsync(formData);
       displaySuccessMessage("You have been registered successfully");
+      setLoading(false);
     } catch (error) {
       displayErrorMessage("An error occured try again later");
     }
@@ -174,7 +175,7 @@ function UserModel({ closeModal, isOpen, setIsOpen }) {
                         onClick={handleSubmit}
                         className="w-full py-3 mt-8 bg-indigo-600 rounded-md hover:bg-indigo-500 relative text-white"
                       >
-                        Add user
+                        {loading ? "Registering User ...." : "Add User"}
                       </button>
                     </form>
                   </div>
