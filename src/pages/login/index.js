@@ -124,12 +124,7 @@ export default function Login() {
               "Sign In"
             )}
           </button>
-          <button
-            onClick={() => navigate("/signup")}
-            className="w-full  mt-8 py-4 bg-slate-600 rounded-md hover:bg-indigo-500 relative text-white"
-          >
-            Don't an account signup
-          </button>
+
         </form>
       </div>
     </div>
