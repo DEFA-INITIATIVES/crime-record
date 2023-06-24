@@ -12,7 +12,7 @@ const getRandomuserParams = (params) => ({
   ...params,
 });
 function Userstable() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [userdata, setData] = useState();
 
@@ -110,7 +110,7 @@ function Userstable() {
           >
             Add User
           </button>
-          <h1 className="text-xl font-semibold">Users MODULES</h1>
+          <h1 className="text-xl font-semibold">Users</h1>
         </div>
         <div className="mt-6">
           {/* <Table columns={columns} data={resultData?.data} /> */}
@@ -129,12 +129,13 @@ function Userstable() {
           />
         </div>
       </main>
-
+   {
       <UserModel
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         closeModal={() => setIsOpen(false)}
       />
+   }
     </div>
   );
 }

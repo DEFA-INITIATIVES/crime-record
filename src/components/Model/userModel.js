@@ -93,10 +93,6 @@ function UserModel({ closeModal, isOpen, setIsOpen }) {
                 <div className="">
                   <div className="container horizontal mt-5">
                     <form className="max-w-[400px] w-full mx-auto bg-white rounded-[24px] p-8">
-                      <h2 className="text-4xl font-bold text-center py-4 font-sans text-gray-700">
-                        Register
-                      </h2>
-
                       <div className="flex flex-col mb-4">
                         <label className="text-gray-900 font-sans font-bold">
                           Name
@@ -138,6 +134,9 @@ function UserModel({ closeModal, isOpen, setIsOpen }) {
                           options={[
                             { value: "forensics", label: "Forensic" },
                             { value: "police", label: "Police" },
+                            { value: "immigration", label: "Immigration" },
+                            { value: "courts", label: "Courts of Law" },
+
                           ]}
                           required
                         />

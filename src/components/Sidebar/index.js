@@ -14,6 +14,16 @@ function Sidebar() {
 
 	const role = localStorage.getItem("role");
 	console.log("ROLE", role);
+	const handleNavigate = () =>{
+		if(role=="admin"){
+			navigate("/admin")
+		}else if(role=="police"){
+			navigate("/crime")
+
+		}else if(role=="forensics"){
+			navigate("/forensic")
+		}
+	}
 	return (
 		<div className="md:block hidden">
 			{/* <Header /> */}
@@ -23,27 +33,27 @@ function Sidebar() {
 					<div className="bg-purple-800 text-white p-3 rounded-lg inline-block ">
 						<RxSketchLogo size={20} />
 					</div>
-					{role === "forensics" ? (
-						<Link
-							to="/forensic"
+					{/* {role === "forensics" ? ( */}
+						<div 
+						    onClick={handleNavigate}
 							className="flex flex-col justify-center items-center"
 						>
 							<div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
 								<RxDashboard size={20} />
 							</div>
 							<h3>Dasboard</h3>
-						</Link>
-					) : (
-						<Link
-							to="/"
-							className="flex flex-col justify-center items-center"
-						>
-							<div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
-								<RxDashboard size={20} />
-							</div>
-							<h3>Dasboard</h3>
-						</Link>
-					)}
+						</div>
+					{/* // ) : (
+					// 	<Link
+					// 		to="/"
+					// 		className="flex flex-col justify-center items-center"
+					// 	>
+					// 		<div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
+					// 			<RxDashboard size={20} />
+					// 		</div>
+					// 		<h3>Dasboard</h3>
+					// 	</Link>
+					// )} */}
 
 					<Link
 						to="/evidence"
