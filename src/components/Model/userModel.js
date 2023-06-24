@@ -33,7 +33,7 @@ function UserModel({ closeModal, isOpen, setIsOpen }) {
       const response = await registerMutation.mutateAsync(formData);
       displaySuccessMessage("You have been registered successfully");
       setLoading(false);
-      const [formData, setFormData] = useState({
+      setFormData({
         email: "",
         role: "",
         password: "",
