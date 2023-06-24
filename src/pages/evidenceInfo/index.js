@@ -61,21 +61,19 @@ export default function EvidenceInfo() {
               </Tab>
             ))}
           </Tab.List>
-          <Tab.Panels className="mt-2">
+          <Tab.Panels className="mt-2 ">
             <Tab.Panel>
-            <div className="grid grid-cols-4 gap-20 justify-center">
-                <img width={500} height={300} className="absolute  object-contain" src={data?.photos[0]?data?.photos[0] : 'https://res.cloudinary.com/ultronic-software-developers/image/upload/v1685354203/pexels-kat-wilcox-923681_jcbkmm.jpg'} />
-  {/* {data?.map((info) => (
-    <div className="cursor-pointer mx-4" key={info._id}>
-      <FcOpenedFolder size={90} />
-      <p className="inline-block ml-2 px-2 py-1 bg-blue-500 text-white font-bold text-sm rounded">
-        {info?.crimeId?.suspect}
-      </p>
-    </div>
-  ))} */}
+            <div className="grid gap-5 items-center justify-center grid-cols-4 w-[900px]">
+            {
+              data?.photos.map(image=>(
+                <div className="w-[250px] h-[250px]">
+                <img  className="pl-10  h-full w-full object-cover" src={`data:image/jpeg;base64,${image}`} />
+                </div>
+               
+              ))
+            }
+
 </div>
-
-
 
             </Tab.Panel>
           </Tab.Panels>
