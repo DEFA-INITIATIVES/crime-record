@@ -5,6 +5,7 @@ import qs from "qs";
 import UserModel from "../Model/userModel";
 import apiClient from "../../api/apiClient";
 import { useDispatch } from "react-redux";
+import PeopleTable from "./peopleTable";
 
 const getRandomuserParams = (params) => ({
   results: params.pagination?.pageSize,
@@ -75,26 +76,7 @@ function Userstable() {
       dataIndex: "role",
     },
      
-    // {
-    //   title: "password",
-    //   dataIndex: "password",
-    // },
-    //   {
-    //     title: "Add User",
-    //     dataIndex: "_id",
-    //     render: (id) => (
-    //       <button
-    //         onClick={() => {
-    //           setIsOpen(true);
 
-    //           console.log(isOpen);
-    //         }}
-    //         className="w-20  mt-2 py-2 bg-slate-600 rounded-md hover:bg-indigo-500 relative text-white"
-    //       >
-    //         Add User
-    //       </button>
-    //     ),
-    //   },
   ];
 
   return (
@@ -114,20 +96,9 @@ function Userstable() {
           <h1 className="text-xl font-semibold">Users</h1>
         </div>
         <div className="mt-6">
-          {/* <Table columns={columns} data={resultData?.data} /> */}
-          <Table
-            columns={columns}
-            rowKey={(record) => record?.login?.uuid}
-            style={{ cursor: "pointer", color: "var(--colorIcon)" }}
-            dataSource={userdata?.data}
-            pagination={tableParams.pagination}
-            onChange={handleTableChange}
-            // onRow={(record) => ({
-            //   onClick: () => {
-            //     dispatch(setCrimeId(record._id));
-            //   },
-            // })}
-          />
+
+
+          <PeopleTable data={userdata?.data}/>
         </div>
       </main>
    {
