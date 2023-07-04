@@ -7,7 +7,7 @@ import {
   displayErrorMessage,
 } from "../toast/Toast";
 
-const PeopleTable = ({ data }) => {
+const CrimeTable = ({ data }) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [filteredData, setFilteredData] = useState(data);
@@ -73,47 +73,33 @@ const PeopleTable = ({ data }) => {
 
 
 
-  const columns = [
+  const columns =  [
     {
-     title: "Name",
-     dataIndex: "name",
-      key: 'name',
-      ...getColumnSearchProps('name', 'Name'),
+        title: "Case Name",
+        dataIndex: "name",
+        key: 'name',
+        ...getColumnSearchProps('name', 'Name'),
 
     },
     {
-        title: "Email",
-        dataIndex: "email",
-      key: 'email',
-      ...getColumnSearchProps('email', 'Email'),
+        title: "Description",
+        dataIndex: "description",
+        key: 'description',
+        ...getColumnSearchProps('description', 'Description')
     },
     {
-      title: 'Role',
-      dataIndex: 'role',
-      key: 'role',
-      ...getColumnSearchProps('role', 'Role'),
+        title: "Code",
+        dataIndex: "code",
+        key: 'code',
+        ...getColumnSearchProps('code', 'Code')
     },
     {
-      title: 'User Id',
-      dataIndex: 'idNumber',
-      key: 'idNumber',
-      ...getColumnSearchProps('idNumber', 'User Id'),
+        title: "Suspect",
+        dataIndex: "suspect",
+        key: 'suspect',
+        ...getColumnSearchProps('suspect', 'Suspect')
     },
-    {
-      title: 'Actions',
-      key: 'id',
-      render: (text, record) => (
-        <Space size="middle">
-          {/* <Button type="primary" >
-            Edit
-          </Button> */}
-          <Button danger onClick={()=>handleDelete(record._id)} >
-            Delete
-          </Button>
-        </Space>
-      ),
-    },
-  ];
+]
 
 
   const handleTableChange = (pagination, filters, sorter) => {
@@ -150,4 +136,4 @@ const PeopleTable = ({ data }) => {
   );
 };
 
-export default PeopleTable;
+export default CrimeTable;

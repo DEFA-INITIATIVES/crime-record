@@ -6,6 +6,7 @@ import { SelectColumnFilter } from "../DataTable/index";
 import apiClient from "../../api/apiClient";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
+import CrimeTable from "./CrimeTable";
 
 const getData = () => {
 	const data = [
@@ -131,7 +132,7 @@ function Getdata() {
 				</div>
 				<div className="mt-6">
 					{/* <Table columns={columns} data={resultData?.data} /> */}
-					<Table
+					{/* <Table
 						columns={columns}
 						rowKey={(record) => record?.login?.uuid}
 						style={{ cursor: 'pointer', color: 'var(--colorIcon)' }}
@@ -140,7 +141,8 @@ function Getdata() {
 						loading={loading}
 						onChange={handleTableChange}
 
-					/>
+					/> */}
+					<CrimeTable data={crimedata?.data}/>
 				</div>
 			</main>
 
