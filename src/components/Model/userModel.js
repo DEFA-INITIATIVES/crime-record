@@ -14,6 +14,7 @@ function UserModel({ closeModal, isOpen, setIsOpen }) {
     role: "",
     password: "",
     name: "",
+    id: "",
   });
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -161,6 +162,19 @@ function UserModel({ closeModal, isOpen, setIsOpen }) {
                         >
                           {passwordVisible ? "HIDE" : "SHOW"}
                         </span>
+                      </div>
+                      <div className="flex flex-col mb-4">
+                        <label className="text-gray-900 font-sans font-bold">
+                          User Id
+                        </label>
+                        <input
+                          className="border relative bg-gray-100 p-2 rounded-md "
+                          type="text"
+                          name="id"
+                          value={formData.id}
+                          onChange={handleChange}
+                          required
+                        />
                       </div>
 
                       {/* <div className="flex flex-col ">

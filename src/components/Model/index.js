@@ -35,7 +35,7 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
 								leaveFrom="opacity-100 scale-100"
 								leaveTo="opacity-0 scale-95"
 							>
-								<Dialog.Panel className="md:w-1/2 mx-auto shadow-xl rounded-2xl pb-2 bg-white ">
+								<Dialog.Panel className="md:w-3/4 mx-auto shadow-xl rounded-2xl pb-2  bg-white">
 									<div className="mt-1 pr-2 flex justify-end">
 										<CrossCircledIcon
 											onClick={closeModal}
@@ -51,7 +51,7 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
 									</Dialog.Title>
 
 									<div className="">
-										<div className="container horizontal mt-5">
+										<div className="container horizontal mt-5 ">
 											{role == "police" ? (
 												<Form setIsOpen={setIsOpen} />
 											) : (

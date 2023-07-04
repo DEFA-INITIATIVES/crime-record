@@ -74,7 +74,9 @@ function Userstable() {
     {
       title: "Role",
       dataIndex: "role",
-    }
+    },
+     
+
   ];
 
   return (
