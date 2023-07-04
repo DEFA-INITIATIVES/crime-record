@@ -131,17 +131,6 @@ function Getdata() {
 					<h1 className="text-xl font-semibold">TAMPER PROOF SYSTEM</h1>
 				</div>
 				<div className="mt-6">
-					{/* <Table columns={columns} data={resultData?.data} /> */}
-					{/* <Table
-						columns={columns}
-						rowKey={(record) => record?.login?.uuid}
-						style={{ cursor: 'pointer', color: 'var(--colorIcon)' }}
-						dataSource={crimedata?.data}
-						pagination={tableParams.pagination}
-						loading={loading}
-						onChange={handleTableChange}
-
-					/> */}
 					<CrimeTable data={crimedata?.data}/>
 				</div>
 			</main>

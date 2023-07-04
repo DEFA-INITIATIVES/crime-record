@@ -14,72 +14,72 @@ function Sidebar() {
 
 	const role = localStorage.getItem("role");
 	console.log("ROLE", role);
-	const handleNavigate = () =>{
-		if(role=="admin"){
-			navigate("/admin")
-		}else if(role=="police"){
-			navigate("/crime")
-
-		}else if(role=="forensics"){
-			navigate("/forensic")
+	const handleNavigate = () => {
+		if (role == "admin") {
+			navigate("/admin");
+		} else if (role == "police") {
+			navigate("/");
+		} else if (role == "forensics") {
+			navigate("/forensic");
 		}
-	}
+	};
 	return (
 		<div className="md:block hidden">
 			{/* <Header /> */}
 
-			<div className="fixed w-20 h-screen px-8  py-4 bg-white border-r-[1px] flex flex-col justify-between">
+			<div className="fixed w-50 bg-[#2C3DA4] h-screen px-8  py-4 bg-white border-r-[1px] flex flex-col justify-between">
 				<div className="flex flex-col items-center space-y-6">
-					<div className="bg-purple-800 text-white p-3 rounded-lg inline-block ">
-						<RxSketchLogo size={20} />
+					<div className="bg-red-800/50  text-white p-5 rounded-lg inline-block z-['9999999999px] ">
+						TP
 					</div>
 					{/* {role === "forensics" ? ( */}
-						<div 
-						    onClick={handleNavigate}
-							className="flex flex-col justify-center items-center"
-						>
-							<div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
-								<RxDashboard size={20} />
-							</div>
-							<h3>Dasboard</h3>
+					<div
+						onClick={handleNavigate}
+						className="flex  text-white font-bold flex-col justify-center items-center"
+					>
+						<div className=" hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
+							<img
+								className="w-10  h-10"
+								src="https://res.cloudinary.com/itgenius/image/upload/v1688471795/interrogation_uzq2yy.png"
+								alt=""
+							/>
 						</div>
-					{/* // ) : (
-					// 	<Link
-					// 		to="/"
-					// 		className="flex flex-col justify-center items-center"
-					// 	>
-					// 		<div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
-					// 			<RxDashboard size={20} />
-					// 		</div>
-					// 		<h3>Dasboard</h3>
-					// 	</Link>
-					// )} */}
+						<h3 className="text-sm">Dasboard</h3>
+					</div>
 
 					<Link
 						to="/evidence"
-						className="flex flex-col justify-center items-center"
+						className="flex text-white font-bold flex-col justify-center items-center"
 					>
-						<div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
-							<RxPerson size={20} />
+						<div className=" hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
+							<img
+								className="w-10  h-10"
+								src="https://res.cloudinary.com/itgenius/image/upload/v1688471795/evidence_xmznjt.png"
+								alt=""
+							/>
 						</div>
-						<h3>Evidence</h3>
+						<h3 className="text-sm">Evidence</h3>
 					</Link>
 					<Link
-						to="/crime"
-						className="flex flex-col justify-center items-center"
+						to="/suspects"
+						className="flex text-white font-bold flex-col justify-center items-center"
 					>
-						<div className="bg-gray-100 hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
-							<HiOutlineShoppingBag size={20} />
+						<div className=" hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block">
+							<img
+								className="w-10  h-10"
+								src="https://res.cloudinary.com/itgenius/image/upload/v1688471796/check_uk2bqb.png"
+								alt=""
+							/>
 						</div>
-						<h3>Crimes</h3>
+						<h3 className="text-sm">Suspects</h3>
 					</Link>
 					<div
 						onClick={handleLogout}
-						className="bg-gray-100 hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block"
+						className="font-bold text-white flex justify-center items-center space-x-2  hover:bg-gray-200 cursor-pointer  p-3 rounded-lg inline-block"
 					>
 						<HiOutlineLogout size={20} />
+						<h3>Logout</h3>
 					</div>
-					<h3>Logout</h3>
 				</div>
 				<main className="ml-20 w-full"></main>
 			</div>

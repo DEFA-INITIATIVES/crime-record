@@ -41,7 +41,7 @@ function App() {
           element={<ProtectedRoute element={<HomePage />} />}
         />
 
-        <Route path="/crime" element={<ProtectedRoute element={<Crime />} />} />
+        <Route path="/suspects" element={<ProtectedRoute element={<Crime />} />} />
         <Route
           path="/evidence"
           element={<ProtectedRoute element={<Evidence />} />}

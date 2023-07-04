@@ -21,15 +21,16 @@ function Header() {
 	const role = localStorage.getItem("role");
 
 	return (
-		<div className="shadow-sm h-[60px] w-full bg-white items-center  top-0 z-30 fixed ">
+		<div className="shadow-lg h-[60px] w-full bg-white items-center p-4  top-0 fixed ml-40 ">
 			{role === "police" ? (
-				<div className="ml-[1050px] flex  ">
+				<div className="ml-[700px] flex  ">
 					<button
 						type="button"
 						onClick={openModal}
-						className=" border font-sans font-bold  border-gray-700 rounded-[24px] hover:bg-gray-300 px-10 mt-2   py-1/5  "
+						className=" border flex justify-center items-center space-x-2 font-sans font-bold hover:text-white  border-gray-700 rounded hover:bg-blue-600 px-10 mt-2   py-1/5  "
 					>
-						ADD F.I.R
+						<span>+</span>
+						<p>ADD F.I.R</p>
 					</button>
 
 					<div className="hidden">

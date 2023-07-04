@@ -7,7 +7,7 @@ import {
   displayErrorMessage,
 } from "../toast/Toast";
 
-const CrimeTable = ({ data }) => {
+const SuspectsTable = ({ data }) => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [filteredData, setFilteredData] = useState(data);
@@ -82,28 +82,46 @@ const CrimeTable = ({ data }) => {
 
     },
     {
-        title: "Description",
-        dataIndex: "description",
-        key: 'description',
-        ...getColumnSearchProps('description', 'Description')
-    },
-    {
         title: "Case  Number",
         dataIndex: "caseNumber",
         key: 'code',
         ...getColumnSearchProps('caseNumber', 'Case  Number')
     },
-    {
-      title: "Location",
-      dataIndex: "location",
-      key: 'location',
-      ...getColumnSearchProps('location', 'Location')
-  },
   {
-    title: "Date",
-    dataIndex: "createdAt",
-    key: 'createdAt',
-    ...getColumnSearchProps('createdAt', 'Date')
+    title: "Suspect",
+    dataIndex: "suspect",
+    key: 'suspect',
+    ...getColumnSearchProps('suspect', 'Suspect')
+},
+{
+    title: "Suspect NIN",
+    dataIndex: "nin",
+    key: 'nin',
+    ...getColumnSearchProps('nin', 'Suspect NIN')
+},
+{
+    title: "Second Suspect",
+    dataIndex: "suspect1",
+    key: 'suspect1',
+    ...getColumnSearchProps('suspect1', 'Second Suspect')
+},
+{
+    title: "Second Suspect NIN",
+    dataIndex: "nin1",
+    key: 'nin1',
+    ...getColumnSearchProps('nin1', 'Second Suspect NIN')
+},
+{
+    title: "Third Suspect",
+    dataIndex: "suspect2",
+    key: 'suspect2',
+    ...getColumnSearchProps('suspect2', 'Second Suspect')
+},
+{
+    title: "Third Suspect NIN",
+    dataIndex: "nin2",
+    key: 'nin2',
+    ...getColumnSearchProps('nin2', 'Third Suspect NIN')
 }
 ]
 
@@ -142,4 +160,4 @@ const CrimeTable = ({ data }) => {
   );
 };
 
-export default CrimeTable;
+export default SuspectsTable;
