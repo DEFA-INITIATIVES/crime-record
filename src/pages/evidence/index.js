@@ -65,7 +65,7 @@ export default function Evidence() {
     <div className="cursor-pointer mx-4" key={info._id}>
       <FcOpenedFolder size={90} />
       <p className="inline-block ml-2 px-2 py-1 bg-blue-500 text-white font-bold text-sm rounded">
-        {info?.crimeId?.suspect}
+        {info?.crimeId?.caseNumber}
       </p>
     </div>
     </Link>
