@@ -108,7 +108,7 @@ const PeopleTable = ({ data }) => {
             Edit
           </Button> */}
           <Button danger onClick={()=>handleDelete(record._id)} >
-            Delete
+            Deactivate
           </Button>
         </Space>
       ),

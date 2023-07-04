@@ -6,7 +6,7 @@ import ForensicForm from "../CominedStepperComponent/ForensicForm";
 
 export default function MyModal({ closeModal, isOpen, setIsOpen }) {
 	const role = localStorage.getItem("role");
-    // console.log(role)
+	// console.log(role)
 	// console.log(role, "ETRETRTWETWRYWTYRWU");
 	return (
 		<>
@@ -47,7 +47,7 @@ export default function MyModal({ closeModal, isOpen, setIsOpen }) {
 										as="h3"
 										className="text-lg font-medium leading-6 text-gray-700   font-sans mb-5"
 									>
-										New FIR
+										{role == "police" ? "New FIR" : "New Report"}
 									</Dialog.Title>
 
 									<div className="">

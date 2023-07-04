@@ -76,7 +76,6 @@ function ForensicForm({ setIsOpen }) {
 			});
 	};
 
-	console.log(formData);
 	return (
 		<div className="flex justify-center flex-col items-center">
 			<div className="grid grid-col-1 gap-8 w-full mx-auto px-5">

@@ -90,7 +90,7 @@ function  Forensics() {
 	const columns =  [
 			{
 				title: "Name",
-				dataIndex: "name",
+				dataIndex: "category",
 			},
 			{
 				title: "Description",
