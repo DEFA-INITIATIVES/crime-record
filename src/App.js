@@ -15,59 +15,70 @@ import Web3 from "web3";
 import { displayErrorMessage } from "./components/toast/Toast";
 import Admin from "./pages/admin";
 function App() {
-  useEffect(() => {
-    window.onload = async () => {
-      if (window.ethereum) {
-        try {
-          await window.ethereum.enable();
-          const web3 = new Web3(window.ethereum);
-          const accounts = await web3.eth.getAccounts();
-          console.log(accounts);
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        displayErrorMessage("Please install MetaMask extension.");
-      }
-    };
-  }, []);
+	useEffect(() => {
+		window.onload = async () => {
+			if (window.ethereum) {
+				try {
+					await window.ethereum.enable();
+					const web3 = new Web3(window.ethereum);
+					const accounts = await web3.eth.getAccounts();
+					console.log(accounts);
+				} catch (error) {
+					console.error(error);
+				}
+			} else {
+				displayErrorMessage("Please install MetaMask extension.");
+			}
+		};
+	}, []);
 
-  return (
-    <div className="">
-      <Routes>
-        <Route
-          index
-          path="/"
-          element={<ProtectedRoute element={<HomePage />} />}
-        />
+	return (
+		<div className="">
+			<Routes>
+				<Route
+					index
+					path="/"
+					element={<ProtectedRoute element={<HomePage />} />}
+				/>
 
-        <Route path="/suspects" element={<ProtectedRoute element={<Crime />} />} />
-        <Route
-          path="/evidence"
-          element={<ProtectedRoute element={<Evidence />} />}
-        />
+				<Route
+					path="/suspects"
+					element={<ProtectedRoute element={<Crime />} />}
+				/>
+				<Route
+					path="/evidence"
+					element={<ProtectedRoute element={<Evidence />} />}
+				/>
 
-        <Route
-          path="/evidence/:id"
-          element={<ProtectedRoute element={<EvidenceInfo />} />}
-        />
-        <Route
-          path="/redirect"
-          element={<ProtectedRoute element={<Redirection />} />}
-        />
+				<Route
+					path="/evidence/:id"
+					element={<ProtectedRoute element={<EvidenceInfo />} />}
+				/>
+				<Route
+					path="/redirect"
+					element={<ProtectedRoute element={<Redirection />} />}
+				/>
 
-        <Route
-          path="/forensic"
-          element={<ProtectedRoute element={<Forensic />} />}
-        />
+				<Route
+					path="/forensic"
+					element={<ProtectedRoute element={<Forensic />} />}
+				/>
 
-        <Route path="/admin" element={<ProtectedRoute element={<Admin />} />} />
+				<Route
+					path="/immigration"
+					element={<ProtectedRoute element={<Forensic />} />}
+				/>
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="*" element={<NotFoundpage />} />
-      </Routes>
-    </div>
-  );
+				<Route
+					path="/admin"
+					element={<ProtectedRoute element={<Admin />} />}
+				/>
+
+				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<Register />} />
+				<Route path="*" element={<NotFoundpage />} />
+			</Routes>
+		</div>
+	);
 }
 export default App;

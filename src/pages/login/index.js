@@ -67,6 +67,15 @@ export default function Login() {
         displaySuccessMessage("Login successfull");
         navigate("/admin");
       }
+      else if (
+        (response.token && response.role === "immigration") ||
+        response.role === "immigration"
+      ) {
+        localStorage.setItem("userToken", response.token);
+        setIsAuthenticated(true);
+        displaySuccessMessage("Login successfull");
+        navigate("/immigration");
+      }
     } catch (error) {
       displayErrorMessage("Some error occured");
       console.log(error);
