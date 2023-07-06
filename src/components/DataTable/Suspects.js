@@ -76,9 +76,9 @@ const SuspectsTable = ({ data }) => {
   const columns =  [
     {
         title: "Case Name",
-        dataIndex: "name",
-        key: 'name',
-        ...getColumnSearchProps('name', 'Name'),
+        dataIndex: "category",
+        key: 'category',
+        ...getColumnSearchProps('category', 'Name'),
 
     },
     {
