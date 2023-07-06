@@ -27,10 +27,10 @@ function Sidebar() {
 		<div className="md:block hidden">
 			{/* <Header /> */}
 
-			<div className="fixed w-50 bg-[#2C3DA4] h-screen px-8  py-4 bg-white border-r-[1px] flex flex-col justify-between">
+			<div className="fixed w-50 bg-[#2C3DA4] h-screen px-8  py-4  border-r-[1px] flex flex-col justify-between">
 				<div className="flex flex-col items-center space-y-6">
 					<div className="bg-red-800/50  text-white p-5 rounded-lg inline-block z-['9999999999px] ">
-						TP
+						TPCMS
 					</div>
 					{/* {role === "forensics" ? ( */}
 					<div
