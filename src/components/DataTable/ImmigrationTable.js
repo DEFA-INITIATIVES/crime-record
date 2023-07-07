@@ -97,20 +97,13 @@ function  Immigration() {
 				dataIndex: "description",
 			},
 			{
-				title: "Code",
-				dataIndex: "code",
+				title: "Case Number",
+				dataIndex: "caseNumber",
 			},
 			{
 				title: "Suspect",
 				dataIndex: "suspect",
-			},
-			// {
-			// 	title: "Actions",
-			// 	dataIndex: "_id",
-			// 	render: (_id) => (
-			// 	  <button onClick={()=>setIsOpen(true)} className ="w-20  mt-2 py-2 bg-slate-600 rounded-md hover:bg-indigo-500 relative text-white">Add Report</button>
-			// 	),
-			//   },
+			}
 		]
 
 
@@ -125,7 +118,7 @@ function  Immigration() {
 
 			<main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
 				<div className="mt-10">
-					<h1 className="text-xl font-semibold">Immigration MODULE</h1>
+					<h1 className="text-xl font-semibold">Immigration  and courts of law MODULE</h1>
 				</div>
 				<div className="mt-6">
 					{/* <Table columns={columns} data={resultData?.data} /> */}

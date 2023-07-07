@@ -21,6 +21,10 @@ function Sidebar() {
 			navigate("/");
 		} else if (role == "forensics") {
 			navigate("/forensic");
+		}else if (role == "immigration") {
+			navigate("/immigration");
+		}else if (role == "courts") {
+			navigate("/immigration");
 		}
 	};
 	return (
