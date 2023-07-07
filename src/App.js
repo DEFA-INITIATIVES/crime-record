@@ -14,6 +14,7 @@ import Forensic from "./pages/home/Forensic";
 import Web3 from "web3";
 import { displayErrorMessage } from "./components/toast/Toast";
 import Admin from "./pages/admin";
+import Immigration from "./pages/home/Immigration";
 function App() {
 	useEffect(() => {
 		window.onload = async () => {
@@ -66,7 +67,7 @@ function App() {
 
 				<Route
 					path="/immigration"
-					element={<ProtectedRoute element={<Forensic />} />}
+					element={<ProtectedRoute element={<Immigration />} />}
 				/>
 
 				<Route

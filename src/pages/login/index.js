@@ -69,7 +69,7 @@ export default function Login() {
       }
       else if (
         (response.token && response.role === "immigration") ||
-        response.role === "immigration"
+        response.role === "courts"
       ) {
         localStorage.setItem("userToken", response.token);
         setIsAuthenticated(true);
